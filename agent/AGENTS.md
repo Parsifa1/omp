@@ -17,3 +17,4 @@
 - 例外：明确标记为手动本地维护的 skills（例如 `agentation-on-demand`）保留在 `~/.config/omp/agent/skills` 实体目录，不迁移到 canonical.
 - 使用 `agent-browser` 的时候，注意设定`AGENT_BROWSER_*` 系列环境变量，防止创建这个文件夹`~/.agent-browser/`污染我的 home 目录.
 - 当你每次完成一个批次的`TODO`之后，记得清空`TODO`列表，但是不要只完成一条就清空，确保一系列的`TODO`都完成再做清空操作。
+- 任何时候都不要主动停止，除非我用中文明确告诉你 `停止``，或者你完成了我明确要求的任务。
