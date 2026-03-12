@@ -1,0 +1,40 @@
+providers:
+  axonhub:
+    baseUrl: https://api.cloudti.de/v1
+    api: openai-completions
+    apiKey: AXONHUB_API_KEY
+    headers:
+      User-Agent: claude-cli/2.1.71 (external, cli)
+      Accept: application/json
+    models:
+      - id: claude-sonnet-4-6
+        name: Claude Sonnet 4.6
+        contextWindow: 200000
+        input: [text, image]
+      - id: claude-opus-4-6
+        name: Claude Opus 4.6
+        contextWindow: 200000
+        input: [text, image]
+      - id: gpt-5.3-codex
+        name: GPT-5.3 Codex
+        reasoning: true
+        contextWindow: 400000
+        input: [text, image]
+      - id: gpt-5.2
+        name: GPT-5.2
+        reasoning: true
+        contextWindow: 400000
+        input: [text, image]
+      - id: gpt-5-mini
+        name: GPT-5 Mini
+        reasoning: true
+        contextWindow: 400000
+        input: [text]
+      - id: gemini-3.1-pro-preview
+        name: Gemini 3.1 Pro Preview
+        contextWindow: 1000000
+        input: [text, image]
+      - id: gemini-3-flash-preview
+        name: Gemini 3 Flash Preview
+        contextWindow: 1000000
+        input: [text, image]

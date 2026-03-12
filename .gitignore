@@ -1,0 +1,6 @@
+*.db*
+logs
+memories
+terminal-sessions
+sessions
+.env

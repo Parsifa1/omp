@@ -1,0 +1,86 @@
+lastChangelogVersion: 13.10.1
+theme: 
+  dark: pi-mono-minimal
+symbolPreset: nerd
+statusLine: 
+  preset: custom
+  separator: none
+  leftSegments: 
+    - path
+    - git
+  rightSegments: 
+    - model
+    - context_pct
+    - token_total
+    - subagents
+  segmentOptions: 
+    model: null
+    path: 
+      abbreviate: true
+      maxLength: 48
+      stripWorkPrefix: true
+    git: 
+      showBranch: true
+      showStaged: false
+      showUnstaged: false
+      showUntracked: false
+  showHookStatus: false
+showHardwareCursor: true
+modelRoles: 
+  default: axonhub/gpt-5.3-codex
+  designer: axonhub/gemini-3.1-pro-preview
+  smol: axonhub/gpt-5-mini:low
+  slow: axonhub/gpt-5.3-codex
+  plan: axonhub/gpt-5.3-codex
+browser: 
+  headless: true
+secrets: 
+  enabled: true
+edit: 
+  mode: hashline
+lsp: 
+  diagnosticsOnEdit: false
+disabledProviders: 
+  - ollama
+  - lm-studio
+hideThinkingBlock: false
+contextPromotion: 
+  enabled: false
+compaction: 
+  enabled: true
+  thresholdPercent: 80
+retry: 
+  maxRetries: 5
+memories: 
+  enabled: true
+branchSummary: 
+  enabled: true
+collapseChangelog: true
+renderMermaid: 
+  enabled: true
+inspect_image: 
+  enabled: true
+calc: 
+  enabled: true
+async: 
+  enabled: true
+task: 
+  isolation: 
+    mode: worktree
+  eager: true
+commands: 
+  enableClaudeUser: false
+  enableClaudeProject: false
+bashInterceptor: 
+  enabled: true
+read: 
+  defaultLimit: 500
+disabledExtensions: 
+  - extension-module:dcp
+readHashLines: true
+checkpoint: 
+  enabled: true
+tools: 
+  intentTracing: true
+mcp: 
+  discoveryMode: true
