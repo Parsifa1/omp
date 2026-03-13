@@ -1,6 +1,6 @@
-lastChangelogVersion: 13.10.1
+lastChangelogVersion: 13.11.0
 theme: 
-  dark: pi-mono-minimal
+  dark: everforest
 symbolPreset: nerd
 statusLine: 
   preset: custom
