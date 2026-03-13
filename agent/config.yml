@@ -1,86 +1,88 @@
 lastChangelogVersion: 13.11.0
-theme: 
+theme:
   dark: everforest
 symbolPreset: nerd
-statusLine: 
+statusLine:
   preset: custom
   separator: none
-  leftSegments: 
+  leftSegments:
     - path
     - git
-  rightSegments: 
+  rightSegments:
     - model
     - context_pct
     - token_total
     - subagents
-  segmentOptions: 
+  segmentOptions:
     model: null
-    path: 
+    path:
       abbreviate: true
       maxLength: 48
       stripWorkPrefix: true
-    git: 
+    git:
       showBranch: true
       showStaged: false
       showUnstaged: false
       showUntracked: false
   showHookStatus: false
 showHardwareCursor: true
-modelRoles: 
+modelRoles:
   default: axonhub/gpt-5.3-codex
   designer: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:low
   slow: axonhub/gpt-5.3-codex
   plan: axonhub/gpt-5.3-codex
-browser: 
+browser:
   headless: true
-secrets: 
+secrets:
   enabled: true
-edit: 
+edit:
   mode: hashline
-lsp: 
+lsp:
   diagnosticsOnEdit: false
-disabledProviders: 
+disabledProviders:
   - ollama
   - lm-studio
 hideThinkingBlock: false
-contextPromotion: 
+contextPromotion:
   enabled: false
-compaction: 
+compaction:
   enabled: true
   thresholdPercent: 80
-retry: 
+retry:
   maxRetries: 5
-memories: 
+memories:
   enabled: true
-branchSummary: 
+branchSummary:
   enabled: true
 collapseChangelog: true
-renderMermaid: 
+renderMermaid:
   enabled: true
-inspect_image: 
+inspect_image:
   enabled: true
-calc: 
+calc:
   enabled: true
-async: 
+async:
   enabled: true
-task: 
-  isolation: 
+task:
+  isolation:
     mode: worktree
   eager: true
-commands: 
+commands:
   enableClaudeUser: false
   enableClaudeProject: false
-bashInterceptor: 
+bashInterceptor:
   enabled: true
-read: 
+read:
   defaultLimit: 500
-disabledExtensions: 
+disabledExtensions:
   - extension-module:dcp
 readHashLines: true
-checkpoint: 
+checkpoint:
   enabled: true
-tools: 
+tools:
   intentTracing: true
-mcp: 
+mcp:
   discoveryMode: true
+skills:
+  customDirectories: [~/.local/share/.agents/skills/superpowers/skills/]
