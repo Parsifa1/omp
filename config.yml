@@ -1,4 +1,4 @@
-lastChangelogVersion: 13.11.0
+lastChangelogVersion: 13.11.1
 theme:
   dark: everforest
 symbolPreset: nerd
@@ -85,4 +85,6 @@ tools:
 mcp:
   discoveryMode: true
 skills:
-  customDirectories: [~/.local/share/.agents/skills/superpowers/skills/]
+  customDirectories:
+    - ~/.local/share/.agents/skills/superpowers/skills/
+
