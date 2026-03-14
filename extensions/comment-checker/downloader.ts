@@ -195,7 +195,7 @@ export async function downloadCommentChecker(): Promise<string | null> {
     ensureExecutable(binaryPath);
 
     debugLog(`Successfully downloaded binary to: ${binaryPath}`);
-    console.log(`[oh-my-pi] comment-checker binary ready.`);
+    debugLog(`[oh-my-pi] comment-checker binary ready.`);
 
     return binaryPath;
   } catch (err) {
