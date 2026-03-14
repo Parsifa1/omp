@@ -1,8 +1,2 @@
-*.db*
-logs
-memories
 node_modules
-terminal-sessions
-sessions
 .env
-blobs
