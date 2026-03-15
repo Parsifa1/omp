@@ -2,7 +2,7 @@
 name: task
 description: General-purpose subagent with full capabilities for delegated multi-step tasks
 spawns: "*"
-model: 
+model:
   - default
 thinkingLevel: medium
 ---

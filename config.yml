@@ -1,4 +1,4 @@
-lastChangelogVersion: 13.12.0
+lastChangelogVersion: 13.12.6
 theme: 
   dark: everforest
 symbolPreset: nerd
@@ -30,7 +30,7 @@ modelRoles:
   default: axonhub/claude-sonnet-4-6
   designer: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:low
-  slow: axonhub/gpt-5.3-codex
+  slow: github-copilot/claude-sonnet-4.6
   plan: axonhub/claude-sonnet-4-6
 browser: 
   headless: true
@@ -73,15 +73,12 @@ bashInterceptor:
 read: 
   defaultLimit: 500
 disabledExtensions: 
-  - slash-command:copilot-stats
   - skill:opencode-skill-install-flow
 readHashLines: true
 checkpoint: 
   enabled: true
 tools: 
   intentTracing: true
-mcp: 
-  discoveryMode: true
 skills: 
   customDirectories: 
     - ~/.local/share/.agents/skills/superpowers/skills/

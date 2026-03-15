@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "grep-app": {
+      "type": "http",
+      "url": "https://mcp.grep.app"
+    },
+    "firefox-devtools": {
+      "command": "pnpx",
+      "args": [
+        "@padenot/firefox-devtools-mcp@latest",
+        "--firefox-path",
+        "/Applications/Zen.app/Contents/MacOS/zen",
+        "--profile-path",
+        "/Users/parsifa1/Library/Application Support/zen/Profiles/mcp"
+      ],
+      "env": {
+        "START_URL": "about:home",
+        "MOZ_REMOTE_ALLOW_SYSTEM_ACCESS": "1"
+      }
+    }
+  },
+  "disabledServers": ["firefox-devtools"]
+}

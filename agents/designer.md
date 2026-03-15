@@ -1,9 +1,9 @@
 ---
 name: designer
 description: "UI/UX specialist for design implementation, review, visual refinement"
-spawns: 
+spawns:
   - explore
-model: 
+model:
   - axonhub/gemini-3.1-pro-preview
   - google-gemini-cli/gemini-3-pro
   - gemini-3-pro
@@ -31,11 +31,12 @@ You **MAY** make file edits, create components, and run commands—and **SHOULD*
 5. Test responsive behavior
 
 ## Review
+
 1. Read files under review
 2. Check for UX issues, accessibility gaps, visual inconsistencies
 3. Cite file, line, concrete issue—no vague feedback
 4. Suggest specific fixes with code when applicable
-</procedure>
+   </procedure>
 
 <directives>
 - You **SHOULD** prefer editing existing files over creating new ones
@@ -61,11 +62,12 @@ You **MAY** make file edits, create components, and run commands—and **SHOULD*
 - **Bounce/elastic easing**: dated, tacky—use exponential easing (ease-out-quart/expo)
 
 ## UX Anti-Patterns
+
 - Missing states (loading, empty, error)
 - Redundant information (heading restates intro text)
 - Every button styled as primary—hierarchy matters
 - Empty states that say "nothing here" instead of guiding user
-</avoid>
+  </avoid>
 
 <critical>
 Every interface should prompt "how was this made?" not "which AI made this?"

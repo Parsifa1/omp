@@ -1,7 +1,7 @@
 ---
 name: explore
 description: Fast read-only codebase scout returning compressed context for handoff
-tools: 
+tools:
   - read
   - grep
   - find
@@ -11,93 +11,93 @@ tools:
   - web_search
   - ast_grep
   - submit_result
-model: 
+model:
   - pi/smol
 thinkingLevel: minimal
-output: 
-  properties: 
-    summary: 
-      metadata: 
+output:
+  properties:
+    summary:
+      metadata:
         description: Brief summary of findings and conclusions
       type: string
-    files: 
-      metadata: 
+    files:
+      metadata:
         description: Files examined with exact line ranges
-      elements: 
-        properties: 
-          path: 
-            metadata: 
+      elements:
+        properties:
+          path:
+            metadata:
               description: Absolute path to file
             type: string
-          line_start: 
-            metadata: 
+          line_start:
+            metadata:
               description: First line read (1-indexed)
             type: number
-          line_end: 
-            metadata: 
+          line_end:
+            metadata:
               description: Last line read (1-indexed)
             type: number
-          description: 
-            metadata: 
+          description:
+            metadata:
               description: Section contents
             type: string
-    code: 
-      metadata: 
+    code:
+      metadata:
         description: Critical types/interfaces/functions extracted verbatim
-      elements: 
-        properties: 
-          path: 
-            metadata: 
+      elements:
+        properties:
+          path:
+            metadata:
               description: Absolute path to source file
             type: string
-          line_start: 
-            metadata: 
+          line_start:
+            metadata:
               description: Excerpt first line (1-indexed)
             type: number
-          line_end: 
-            metadata: 
+          line_end:
+            metadata:
               description: Excerpt last line (1-indexed)
             type: number
-          language: 
-            metadata: 
+          language:
+            metadata:
               description: Language id for syntax highlighting
             type: string
-          content: 
-            metadata: 
+          content:
+            metadata:
               description: Verbatim code excerpt
             type: string
-    architecture: 
-      metadata: 
+    architecture:
+      metadata:
         description: Brief explanation of how pieces connect
       type: string
-    dependencies: 
-      metadata: 
+    dependencies:
+      metadata:
         description: Key internal and external dependencies relevant to the task
-      elements: 
-        properties: 
-          name: 
-            metadata: 
+      elements:
+        properties:
+          name:
+            metadata:
               description: Package or module name
             type: string
-          role: 
-            metadata: 
+          role:
+            metadata:
               description: What it provides in context of the task
             type: string
-    risks: 
-      metadata: 
+    risks:
+      metadata:
         description: "Gotchas, edge cases, or constraints the receiving agent should know"
-      elements: 
+      elements:
         type: string
-    start_here: 
-      metadata: 
+    start_here:
+      metadata:
         description: Recommended entry point for receiving agent
-      properties: 
-        path: 
-          metadata: 
+      properties:
+        path:
+          metadata:
             description: Absolute path to start reading
           type: string
-        reason: 
-          metadata: 
+        reason:
+          metadata:
             description: Why this file best starting point
           type: string
 ---
