@@ -1,101 +1,103 @@
 lastChangelogVersion: 13.12.12
-startup:
+startup: 
   checkUpdate: false
-theme:
+theme: 
   dark: everforest
 symbolPreset: nerd
-statusLine:
+statusLine: 
   preset: custom
   separator: none
-  leftSegments:
+  leftSegments: 
     - path
     - git
-  rightSegments:
+  rightSegments: 
     - model
     - context_pct
     - token_total
     - subagents
-  segmentOptions:
+  segmentOptions: 
     model: null
-    path:
+    path: 
       abbreviate: true
       maxLength: 48
       stripWorkPrefix: true
-    git:
+    git: 
       showBranch: true
       showStaged: false
       showUnstaged: false
       showUntracked: false
   showHookStatus: false
 showHardwareCursor: true
-modelRoles:
+modelRoles: 
   default: axonhub/claude-sonnet-4-6
   designer: axonhub/gemini-3.1-pro-preview
+  vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:low
   slow: github-copilot/claude-sonnet-4.6
   plan: axonhub/claude-sonnet-4-6
-browser:
+browser: 
   headless: true
-secrets:
+secrets: 
   enabled: true
-edit:
+edit: 
   mode: hashline
-lsp:
-  diagnosticsOnEdit: false
+lsp: 
+  diagnosticsOnEdit: true
 hideThinkingBlock: false
-contextPromotion:
+contextPromotion: 
   enabled: false
-compaction:
+compaction: 
   enabled: true
   thresholdPercent: 70
   strategy: context-full
   remoteEnabled: true
-retry:
+retry: 
   maxRetries: 5
-memories:
+memories: 
   enabled: true
-branchSummary:
+branchSummary: 
   enabled: true
 collapseChangelog: true
-renderMermaid:
+renderMermaid: 
   enabled: true
-inspect_image:
+inspect_image: 
   enabled: true
-calc:
+calc: 
   enabled: true
-async:
+async: 
   enabled: true
-task:
-  isolation:
+task: 
+  isolation: 
     mode: worktree
   eager: true
-commands:
+commands: 
   enableClaudeUser: false
   enableClaudeProject: false
-bashInterceptor:
+bashInterceptor: 
   enabled: true
-read:
-  defaultLimit: 500
-disabledExtensions:
+read: 
+  defaultLimit: 300
+disabledExtensions: 
   - skill:opencode-skill-install-flow
+  - slash-command:copilot-stats
 readHashLines: true
-checkpoint:
+checkpoint: 
   enabled: true
-tools:
+tools: 
   intentTracing: true
-skills:
-  customDirectories:
+skills: 
+  customDirectories: 
     - ~/.local/share/.agents/skills/superpowers/skills/
 repeatToolDescriptions: false
-ttsr:
+ttsr: 
   contextMode: discard
   repeatMode: after-gap
-todo:
-  reminders:
+todo: 
+  reminders: 
     max: 5
   eager: false
-mcp:
+mcp: 
   discoveryMode: true
-exa:
+  notifications: true
+exa: 
   enableResearcher: true
-
