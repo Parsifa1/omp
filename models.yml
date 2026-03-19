@@ -25,6 +25,10 @@ providers:
         reasoning: true
         contextWindow: 400000
         input: [text, image]
+      - id: gpt-5.4
+        name: GPT-5.4
+        contextWindow: 1000000
+        input: [text, image]
       - id: gpt-5-mini
         name: GPT-5 Mini
         reasoning: true

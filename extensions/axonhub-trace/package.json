@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.ts",
   "pi": {
-    "extensions": ["./index.ts"]
+    "extensions": ["."]
   },
   "devDependencies": {
     "@oh-my-pi/pi-coding-agent": "13.10.1",

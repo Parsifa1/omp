@@ -33,8 +33,8 @@ modelRoles:
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:low
-  slow: github-copilot/claude-sonnet-4.6
-  plan: axonhub/claude-sonnet-4-6
+  plan: axonhub/gpt-5.4
+  slow: axonhub/gpt-5.4
 browser: 
   headless: true
 secrets: 
@@ -99,5 +99,5 @@ todo:
 mcp: 
   discoveryMode: true
   notifications: true
-exa: 
-  enableResearcher: true
+providers: 
+  webSearch: exa

@@ -8,7 +8,7 @@
     "tar": "^7.4.3"
   },
   "pi": {
-    "extensions": ["./index.ts"]
+    "extensions": ["."]
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",
