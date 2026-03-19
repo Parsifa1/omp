@@ -11,6 +11,6 @@
     "noEmit": true,
     "types": ["bun"]
   },
-  "include": ["index.ts", "types.d.ts"],
+  "include": ["index.ts", "src/**/*.ts", "tests/**/*.ts", "types.d.ts"],
   "exclude": ["node_modules"]
 }
