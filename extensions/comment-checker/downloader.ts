@@ -173,7 +173,6 @@ export async function downloadCommentChecker(): Promise<string | null> {
   const downloadUrl = `https://github.com/${REPO}/releases/download/v${version}/${assetName}`;
 
   debugLog(`Downloading from: ${downloadUrl}`);
-  console.log(`[oh-my-pi] Downloading comment-checker binary...`);
 
   try {
     ensureCacheDir(cacheDir);
