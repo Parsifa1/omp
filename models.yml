@@ -11,34 +11,74 @@ providers:
         name: Claude Sonnet 4.6
         contextWindow: 200000
         input: [text, image]
+        cost:
+          input: 3
+          output: 15
+          cacheRead: 0.3
+          cacheWrite: 3.75
       - id: claude-opus-4-6
         name: Claude Opus 4.6
         contextWindow: 200000
         input: [text, image]
+        cost:
+          input: 5
+          output: 25
+          cacheRead: 0.5
+          cacheWrite: 6.25
       - id: gpt-5.3-codex
         name: GPT-5.3 Codex
         reasoning: true
         contextWindow: 400000
         input: [text, image]
+        cost:
+          input: 1.25
+          output: 10
+          cacheRead: 0.125
+          cacheWrite: 0.125
       - id: gpt-5.2
         name: GPT-5.2
         reasoning: true
         contextWindow: 400000
         input: [text, image]
+        cost:
+          input: 1.75
+          output: 14
+          cacheRead: 0.175
+          cacheWrite: 0.175
       - id: gpt-5.4
         name: GPT-5.4
         contextWindow: 1000000
         input: [text, image]
+        cost:
+          input: 2.5
+          output: 15
+          cacheRead: 0.25
+          cacheWrite: 0.25
       - id: gpt-5-mini
         name: GPT-5 Mini
         reasoning: true
         contextWindow: 400000
         input: [text]
+        cost:
+          input: 0.25
+          output: 2
+          cacheRead: 0.025
+          cacheWrite: 0.025
       - id: gemini-3.1-pro-preview
         name: Gemini 3.1 Pro Preview
         contextWindow: 1000000
         input: [text, image]
+        cost:
+          input: 1.25
+          output: 10
+          cacheRead: 0.125
+          cacheWrite: 0.125
       - id: gemini-3-flash-preview
         name: Gemini 3 Flash Preview
         contextWindow: 1000000
         input: [text, image]
+        cost:
+          input: 0.5
+          output: 3
+          cacheRead: 0.05
+          cacheWrite: 0.05
