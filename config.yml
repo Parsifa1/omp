@@ -1,4 +1,4 @@
-lastChangelogVersion: 13.14.0
+lastChangelogVersion: 14.0.2
 startup: 
   checkUpdate: false
 theme: 
@@ -88,6 +88,7 @@ tools:
 skills: 
   customDirectories: 
     - ~/.local/share/.agents/skills/superpowers/skills/
+    - ~/.local/share/.agents/skills/impeccable/source/skills/
 repeatToolDescriptions: false
 ttsr: 
   contextMode: discard
