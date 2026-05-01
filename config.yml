@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.1.4
+lastChangelogVersion: 14.5.14
 startup: 
   checkUpdate: false
 theme: 
@@ -29,12 +29,12 @@ statusLine:
   showHookStatus: false
 showHardwareCursor: true
 modelRoles: 
-  default: axonhub/claude-sonnet-4-6
+  default: axonhub/gpt-5.4
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
-  smol: axonhub/gpt-5-mini:low
+  smol: axonhub/gpt-5-mini:high
   plan: axonhub/gpt-5.4
-  slow: axonhub/gpt-5.4
+  slow: axonhub/claude-sonnet-4-6
 browser: 
   headless: true
 secrets: 
@@ -88,7 +88,6 @@ tools:
 skills: 
   customDirectories: 
     - ~/.local/share/.agents/skills/superpowers/skills/
-    # - ~/.local/share/.agents/skills/impeccable/source/skills/
 repeatToolDescriptions: false
 ttsr: 
   contextMode: discard
