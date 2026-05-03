@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.5.14
+lastChangelogVersion: 14.6.2
 startup: 
   checkUpdate: false
 theme: 
@@ -7,6 +7,7 @@ symbolPreset: nerd
 statusLine: 
   preset: custom
   separator: none
+  sessionAccent: false
   leftSegments: 
     - path
     - git
@@ -26,13 +27,14 @@ statusLine:
       showStaged: false
       showUnstaged: false
       showUntracked: false
-  showHookStatus: false
+  showHookStatus: true
 showHardwareCursor: true
 modelRoles: 
   default: axonhub/gpt-5.4
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:high
+  review: axonhub/gpt-5.4
   plan: axonhub/gpt-5.4
   slow: axonhub/claude-sonnet-4-6
 browser: 
@@ -101,3 +103,5 @@ mcp:
   notifications: true
 providers: 
   webSearch: exa
+memory: 
+  backend: local

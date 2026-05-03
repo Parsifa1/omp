@@ -16,7 +16,7 @@ spawns:
   - explore
   - task
 model:
-  - pi/slow
+  - pi/review
 thinkingLevel: high
 output:
   properties:
