@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.6.2
+lastChangelogVersion: 14.7.0
 startup: 
   checkUpdate: false
 theme: 
@@ -82,6 +82,9 @@ read:
 disabledExtensions: 
   - skill:opencode-skill-install-flow
   - slash-command:copilot-stats
+  - skill:document-skills:mcp-builder
+  - skill:document-skills:skill-creator
+  - skill:document-skills:slack-gif-creator
 readHashLines: true
 checkpoint: 
   enabled: true
