@@ -90,9 +90,6 @@ checkpoint:
   enabled: true
 tools: 
   intentTracing: true
-skills: 
-  customDirectories: 
-    - ~/.local/share/.agents/skills/superpowers/skills/
 repeatToolDescriptions: false
 ttsr: 
   contextMode: discard
