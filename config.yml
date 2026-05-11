@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.7.6
+lastChangelogVersion: 14.9.3
 startup: 
   checkUpdate: false
 theme: 
@@ -71,6 +71,7 @@ async:
 task: 
   isolation: 
     mode: worktree
+    commits: generic
   eager: true
 commands: 
   enableClaudeUser: false
@@ -87,9 +88,10 @@ disabledExtensions:
   - skill:document-skills:slack-gif-creator
 readHashLines: true
 checkpoint: 
-  enabled: true
+  enabled: false
 tools: 
   intentTracing: true
+  discoveryMode: all
 repeatToolDescriptions: false
 ttsr: 
   contextMode: discard
@@ -107,3 +109,11 @@ memory:
   backend: local
 disabledProviders: 
   - opencode
+ask: 
+  timeout: 0
+autocompleteMaxVisible: 7
+github: 
+  enabled: true
+bash: 
+  autoBackground: 
+    enabled: true
