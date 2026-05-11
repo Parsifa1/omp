@@ -25,16 +25,6 @@ providers:
           output: 25
           cacheRead: 0.5
           cacheWrite: 6.25
-      - id: gpt-5.3-codex
-        name: GPT-5.3 Codex
-        reasoning: true
-        contextWindow: 400000
-        input: [text, image]
-        cost:
-          input: 1.25
-          output: 10
-          cacheRead: 0.125
-          cacheWrite: 0.125
       - id: gpt-5.5
         name: GPT-5.5
         reasoning: true
@@ -82,3 +72,21 @@ providers:
           output: 3
           cacheRead: 0.05
           cacheWrite: 0.05
+      - id: deepseek-v4-pro
+        name: DeepSeek V4 Pro
+        contextWindow: 1000000
+        input: [text]
+        cost:
+          input: 0
+          output: 0
+          cacheRead: 0
+          cacheWrite: 0
+      - id: glm-5.1
+        name: GLM 5.1
+        input: [text]
+        contextWindow: 202752
+        cost:
+          input: 1.4
+          output: 4.4
+          cacheRead: 0.26
+          cacheWrite: 0
