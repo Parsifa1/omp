@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.7.0
+lastChangelogVersion: 14.7.6
 startup: 
   checkUpdate: false
 theme: 
@@ -105,3 +105,5 @@ providers:
   webSearch: exa
 memory: 
   backend: local
+disabledProviders: 
+  - opencode
