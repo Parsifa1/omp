@@ -1,0 +1,3 @@
+[submodule "extensions/context-prune"]
+	path = extensions/context-prune
+	url = https://github.com/parsifa1/pi-context-prune

@@ -50,7 +50,7 @@ contextPromotion:
   enabled: false
 compaction: 
   enabled: true
-  thresholdPercent: 70
+  thresholdPercent: 85
   strategy: context-full
   remoteEnabled: true
 retry: 
