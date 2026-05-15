@@ -1,4 +1,4 @@
-lastChangelogVersion: 14.9.3
+lastChangelogVersion: 15.0.2
 startup: 
   checkUpdate: false
 theme: 
@@ -70,7 +70,7 @@ async:
   enabled: true
 task: 
   isolation: 
-    mode: worktree
+    mode: rcopy
     commits: generic
   eager: true
 commands: 
