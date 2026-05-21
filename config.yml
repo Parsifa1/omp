@@ -1,4 +1,4 @@
-lastChangelogVersion: 15.0.2
+lastChangelogVersion: 15.1.6
 startup: 
   checkUpdate: false
 theme: 
@@ -91,7 +91,7 @@ checkpoint:
   enabled: false
 tools: 
   intentTracing: true
-  discoveryMode: all
+  discoveryMode: mcp-only
 repeatToolDescriptions: false
 ttsr: 
   contextMode: discard
