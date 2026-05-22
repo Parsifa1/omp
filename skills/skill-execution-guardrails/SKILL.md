@@ -1,7 +1,6 @@
 ---
 name: skill-execution-guardrails
-description: 泛用地处理 skill 内脚本、模板或辅助文件的执行问题；用于依赖补齐、路径边界确认、验证失败分流与回退策略。
----
+description: Whenever you need to execute scripts, templates, helpers, or example commands from `skill://` resources, follow this process to safely validate and execute them, distinguish issues within the skill itself from environment or validator problems, and prioritize completing the delivery within a restricted environment.
 
 # Skill Execution Guardrails
 
