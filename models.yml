@@ -25,6 +25,15 @@ providers:
           output: 25
           cacheRead: 0.5
           cacheWrite: 6.25
+      - id: claude-opus-4-7
+        name: Claude Opus 4.7
+        contextWindow: 1000000
+        input: [text, image]
+        cost:
+          input: 5
+          output: 25
+          cacheRead: 0.5
+          cacheWrite: 6.25
       - id: gpt-5.5
         name: GPT-5.5
         reasoning: true
