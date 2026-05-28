@@ -57,6 +57,10 @@ providers:
         name: GPT-5 Mini
         reasoning: true
         contextWindow: 400000
+        thinking:
+           mode: effort
+           minLevel: low
+           maxLevel: high
         input: [text]
         cost:
           input: 0.25

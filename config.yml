@@ -1,4 +1,4 @@
-lastChangelogVersion: 15.2.4
+lastChangelogVersion: 15.5.8
 startup: 
   checkUpdate: false
 theme: 
@@ -34,6 +34,7 @@ modelRoles:
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5-mini:high
+  commit: axonhub/gpt-5-mini:low
   review: axonhub/gpt-5.4
   plan: axonhub/gpt-5.4
   slow: axonhub/claude-sonnet-4-6
