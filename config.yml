@@ -107,7 +107,7 @@ mcp:
 providers: 
   webSearch: exa
 memory: 
-  backend: local
+  backend: mnemopi
 disabledProviders: 
   - opencode
 ask: 
@@ -118,5 +118,8 @@ github:
 bash: 
   autoBackground: 
     enabled: true
-clearOnShrink: true
+clearOnShrink: false
 setupVersion: 1
+mnemopi: 
+  scoping: per-project-tagged
+defaultThinkingLevel: auto
