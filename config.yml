@@ -1,4 +1,4 @@
-lastChangelogVersion: 15.5.8
+lastChangelogVersion: 15.7.2
 startup: 
   checkUpdate: false
 theme: 
@@ -118,3 +118,5 @@ github:
 bash: 
   autoBackground: 
     enabled: true
+clearOnShrink: true
+setupVersion: 1
