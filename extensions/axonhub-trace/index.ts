@@ -5,8 +5,11 @@ const TRACE_HEADER = "AH-Trace-Id";
 const PROVIDER = "axonhub";
 
 export default function axonhubTrace(pi: ExtensionAPI): void {
-  // oh-my-pi messages carry no opaque id field; timestamp is the finest-grained
-  // per-turn discriminator available without forking the SDK.
+  // oh-my-pi messages carry no opaque id field; the triggering user message's
+  // timestamp is the finest-grained per-turn discriminator available without
+  // forking the SDK. We key a stable per-turn UUID off that timestamp so the
+  // trace id stays constant across the tool-call loop within one turn.
+  let latestTraceTs: number | undefined;
   let latestTraceId: string | undefined;
   let sessionId: string | undefined;
 
@@ -33,11 +36,13 @@ export default function axonhubTrace(pi: ExtensionAPI): void {
 
   pi.on("session_start", (_event, ctx) => {
     sessionId = ctx.sessionManager.getSessionId();
+    latestTraceTs = undefined;
     latestTraceId = undefined;
   });
 
   pi.on("session_switch", (_event, ctx) => {
     sessionId = ctx.sessionManager.getSessionId();
+    latestTraceTs = undefined;
     latestTraceId = undefined;
   });
 
@@ -47,7 +52,10 @@ export default function axonhubTrace(pi: ExtensionAPI): void {
     for (let i = event.messages.length - 1; i >= 0; i--) {
       const msg = event.messages[i] as { role?: string; timestamp?: number };
       if (msg.role === "user" && msg.timestamp) {
-        latestTraceId = String(msg.timestamp);
+        if (msg.timestamp !== latestTraceTs) {
+          latestTraceTs = msg.timestamp;
+          latestTraceId = Bun.randomUUIDv7();
+        }
         break;
       }
     }

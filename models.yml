@@ -4,29 +4,20 @@ providers:
     api: openai-completions
     apiKey: AXONHUB_API_KEY
     headers:
-      User-Agent: claude-cli/2.1.71 (external, cli)
+      User-Agent: claude-cli/2.1.158 (external, cli)
       Accept: application/json
     models:
-      - id: claude-sonnet-4-6
-        name: Claude Sonnet 4.6
-        contextWindow: 200000
+      - id: claude-sonnet-4-7
+        name: Claude Sonnet 4.7
+        contextWindow: 1000000
         input: [text, image]
         cost:
           input: 3
           output: 15
           cacheRead: 0.3
           cacheWrite: 3.75
-      - id: claude-opus-4-6
-        name: Claude Opus 4.6
-        contextWindow: 200000
-        input: [text, image]
-        cost:
-          input: 5
-          output: 25
-          cacheRead: 0.5
-          cacheWrite: 6.25
-      - id: claude-opus-4-7
-        name: Claude Opus 4.7
+      - id: claude-opus-4-8
+        name: Claude Opus 4.8
         contextWindow: 1000000
         input: [text, image]
         cost:
@@ -58,9 +49,9 @@ providers:
         reasoning: true
         contextWindow: 400000
         thinking:
-           mode: effort
-           minLevel: low
-           maxLevel: high
+          mode: effort
+          minLevel: low
+          maxLevel: high
         input: [text]
         cost:
           input: 0.25

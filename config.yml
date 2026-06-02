@@ -1,4 +1,4 @@
-lastChangelogVersion: 15.7.2
+lastChangelogVersion: 15.9.1
 startup: 
   checkUpdate: false
 theme: 
@@ -37,7 +37,7 @@ modelRoles:
   commit: axonhub/gpt-5-mini:low
   review: axonhub/gpt-5.4
   plan: axonhub/gpt-5.4
-  slow: axonhub/claude-sonnet-4-6
+  slow: axonhub/claude-opus-4-8
 browser: 
   headless: true
 secrets: 
