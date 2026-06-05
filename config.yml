@@ -33,8 +33,8 @@ modelRoles:
   default: axonhub/gpt-5.4
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
-  smol: axonhub/gpt-5-mini:high
-  commit: axonhub/gpt-5-mini:low
+  smol: axonhub/gpt-5.4-mini:high
+  commit: axonhub/gpt-5.4-mini:low
   review: axonhub/gpt-5.4
   plan: axonhub/gpt-5.4
   slow: axonhub/claude-opus-4-8

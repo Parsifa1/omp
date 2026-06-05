@@ -58,6 +58,20 @@ providers:
           output: 2
           cacheRead: 0.025
           cacheWrite: 0.025
+      - id: gpt-5.4-mini
+        name: GPT-5.4 Mini
+        reasoning: true
+        contextWindow: 400000
+        thinking:
+          mode: effort
+          minLevel: low
+          maxLevel: xhigh
+        input: [text]
+        cost:
+          input: 0.75
+          output: 4.5
+          cacheRead: 0.075
+          cacheWrite: 0.75
       - id: gemini-3.1-pro-preview
         name: Gemini 3.1 Pro Preview
         contextWindow: 1000000
