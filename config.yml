@@ -110,6 +110,9 @@ memory:
   backend: mnemopi
 disabledProviders: 
   - opencode
+  - llama.cpp
+  - lm-studio
+  - ollama
 ask: 
   timeout: 0
 autocompleteMaxVisible: 7
