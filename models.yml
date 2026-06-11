@@ -1,14 +1,15 @@
 providers:
   axonhub:
     baseUrl: https://api.cloudti.de/v1
-    api: openai-completions
+    api: openai-responses
     apiKey: AXONHUB_API_KEY
     headers:
-      User-Agent: claude-cli/2.1.158 (external, cli)
+      User-Agent: &claude claude-cli/2.1.170 (external, cli)
       Accept: application/json
     models:
       - id: claude-sonnet-4-7
         name: Claude Sonnet 4.7
+        api: anthropic-messages
         contextWindow: 1000000
         input: [text, image]
         cost:
@@ -16,8 +17,12 @@ providers:
           output: 15
           cacheRead: 0.3
           cacheWrite: 3.75
+        headers:
+          User-Agent: *claude
       - id: claude-opus-4-8
         name: Claude Opus 4.8
+        api: anthropic-messages
+        reasoning: true
         contextWindow: 1000000
         input: [text, image]
         cost:
@@ -25,6 +30,21 @@ providers:
           output: 25
           cacheRead: 0.5
           cacheWrite: 6.25
+        headers:
+          User-Agent: *claude
+      - id: claude-fable-5
+        name: Claude Fable 5
+        api: anthropic-messages
+        reasoning: true
+        contextWindow: 1000000
+        input: [text, image]
+        cost:
+          input: 10
+          output: 50
+          cacheRead: 0.5
+          cacheWrite: 6.25
+        headers:
+          User-Agent: *claude
       - id: gpt-5.5
         name: GPT-5.5
         reasoning: true
@@ -35,6 +55,8 @@ providers:
           output: 30
           cacheRead: 0.5
           cacheWrite: 0
+        headers:
+          User-Agent: &codex codex-tui/0.135.0 (NixOS 26.11.0; x86_64) WezTerm/20260331-040028-577474d8 (codex-tui; 0.135.0)
       - id: gpt-5.4
         name: GPT-5.4
         contextWindow: 1000000
@@ -44,6 +66,8 @@ providers:
           output: 15
           cacheRead: 0.25
           cacheWrite: 0.25
+        headers:
+          User-Agent: *codex
       - id: gpt-5-mini
         name: GPT-5 Mini
         reasoning: true
@@ -90,15 +114,6 @@ providers:
           output: 3
           cacheRead: 0.05
           cacheWrite: 0.05
-      - id: deepseek-v4-pro
-        name: DeepSeek V4 Pro
-        contextWindow: 1000000
-        input: [text]
-        cost:
-          input: 0
-          output: 0
-          cacheRead: 0
-          cacheWrite: 0
       - id: glm-5.1
         name: GLM 5.1
         input: [text]
