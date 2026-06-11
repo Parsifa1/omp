@@ -70,7 +70,7 @@ async:
   enabled: true
 task: 
   isolation: 
-    mode: rcopy
+    mode: auto
     commits: generic
   eager: true
 commands: 
