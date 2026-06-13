@@ -39,7 +39,7 @@
     "text": "fg",
     "thinkingText": "grey1",
     "selectedBg": "bg1",
-    "userMessageBg": "",
+    "userMessageBg": "bg1",
     "userMessageText": "fg",
     "customMessageBg": "",
     "customMessageText": "fg",
