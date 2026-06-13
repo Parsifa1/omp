@@ -53,9 +53,19 @@ export function applyClaudeDeviceMetadata(
   if (!metadata || typeof metadata !== "object") return false;
 
   const userId = parseUserId(metadata.user_id);
-  if (!userId || typeof userId.device_id === "string") return false;
+  if (!userId) return false;
 
-  userId.device_id = deviceId;
+  let changed = false;
+  if (typeof userId.device_id !== "string") {
+    userId.device_id = deviceId;
+    changed = true;
+  }
+  if (typeof userId.account_uuid !== "string") {
+    userId.account_uuid = "";
+    changed = true;
+  }
+  if (!changed) return false;
+
   metadata.user_id = JSON.stringify(userId);
   return true;
 }

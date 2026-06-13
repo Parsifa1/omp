@@ -51,8 +51,10 @@ contextPromotion:
 compaction: 
   enabled: true
   thresholdPercent: 85
-  strategy: context-full
+  strategy: snapcompact
   remoteEnabled: true
+  handoffSaveToDisk: false
+  supersedeReads: true
 retry: 
   maxRetries: 5
 memories: 
@@ -126,3 +128,5 @@ setupVersion: 1
 mnemopi: 
   scoping: per-project-tagged
 defaultThinkingLevel: auto
+dev: 
+  autoqa: false
