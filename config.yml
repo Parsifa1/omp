@@ -1,88 +1,88 @@
-startup: 
+startup:
   checkUpdate: false
-theme: 
+theme:
   dark: everforest
 symbolPreset: nerd
-statusLine: 
+statusLine:
   preset: custom
   separator: none
   sessionAccent: false
-  leftSegments: 
+  leftSegments:
     - path
     - git
-  rightSegments: 
+  rightSegments:
     - model
     - context_pct
     - token_total
     - subagents
-  segmentOptions: 
+  segmentOptions:
     model: null
-    path: 
+    path:
       abbreviate: true
       maxLength: 48
       stripWorkPrefix: true
-    git: 
+    git:
       showBranch: true
       showStaged: false
       showUnstaged: false
       showUntracked: false
   showHookStatus: true
 showHardwareCursor: true
-modelRoles: 
+modelRoles:
   default: axonhub/gpt-5.5
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
-  smol: axonhub/gpt-5.4-mini:high
-  commit: axonhub/gpt-5.4-mini:low
+  smol: axonhub/gpt-5.4-mini
+  commit: axonhub/gpt-5.4-mini
   review: axonhub/gpt-5.5
   plan: axonhub/gpt-5.5
   slow: axonhub/claude-opus-4-8
-browser: 
+browser:
   headless: true
-secrets: 
+secrets:
   enabled: true
-edit: 
+edit:
   mode: hashline
-lsp: 
+lsp:
   diagnosticsOnEdit: true
 hideThinkingBlock: false
-contextPromotion: 
+contextPromotion:
   enabled: false
-compaction: 
+compaction:
   enabled: true
   thresholdPercent: 85
   strategy: snapcompact
   remoteEnabled: true
   handoffSaveToDisk: false
   supersedeReads: true
-retry: 
+retry:
   maxRetries: 5
-memories: 
+memories:
   enabled: true
-branchSummary: 
+branchSummary:
   enabled: true
 collapseChangelog: true
-renderMermaid: 
+renderMermaid:
   enabled: true
-inspect_image: 
+inspect_image:
   enabled: true
-calc: 
+calc:
   enabled: true
-async: 
+async:
   enabled: true
-task: 
-  isolation: 
+task:
+  isolation:
     mode: auto
     commits: generic
   eager: default
-commands: 
+commands:
   enableClaudeUser: false
   enableClaudeProject: false
-bashInterceptor: 
+bashInterceptor:
   enabled: true
-read: 
+read:
   defaultLimit: 300
-disabledExtensions: 
+disabledExtensions:
   - skill:opencode-skill-install-flow
   - slash-command:copilot-stats
   - skill:document-skills:mcp-builder
@@ -90,43 +90,44 @@ disabledExtensions:
   - skill:document-skills:slack-gif-creator
   - extension-module:context-prune
 readHashLines: true
-checkpoint: 
+checkpoint:
   enabled: false
-tools: 
+tools:
   intentTracing: true
   discoveryMode: mcp-only
 repeatToolDescriptions: false
-ttsr: 
+ttsr:
   contextMode: discard
   repeatMode: after-gap
-todo: 
-  reminders: 
+  repeatGap: 5
+todo:
+  reminders:
     max: 5
   eager: default
-mcp: 
+mcp:
   discoveryMode: true
   notifications: true
-providers: 
+providers:
   webSearch: exa
-memory: 
+memory:
   backend: mnemopi
-disabledProviders: 
+disabledProviders:
   - opencode
   - llama.cpp
   - lm-studio
   - ollama
-ask: 
+ask:
   timeout: 0
 autocompleteMaxVisible: 7
-github: 
+github:
   enabled: true
-bash: 
-  autoBackground: 
+bash:
+  autoBackground:
     enabled: true
 clearOnShrink: false
 setupVersion: 1
-mnemopi: 
+mnemopi:
   scoping: per-project-tagged
 defaultThinkingLevel: auto
-dev: 
+dev:
   autoqa: false

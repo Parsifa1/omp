@@ -7,6 +7,19 @@ providers:
       User-Agent: &claude claude-cli/2.1.170 (external, cli)
       Accept: application/json
     models:
+
+      - id: claude-haiku-4-5
+        name: Claude Haiku 4.5
+        api: anthropic-messages
+        contextWindow: 2000000
+        input: [text, image]
+        cost:
+          input: 1
+          output: 5
+          cacheRead: 0.1
+          cacheWrite: 1.25
+        headers:
+          User-Agent: *claude
       - id: claude-sonnet-4-7
         name: Claude Sonnet 4.7
         api: anthropic-messages
@@ -32,19 +45,19 @@ providers:
           cacheWrite: 6.25
         headers:
           User-Agent: *claude
-      - id: claude-fable-5
-        name: Claude Fable 5
-        api: anthropic-messages
-        reasoning: true
-        contextWindow: 1000000
-        input: [text, image]
-        cost:
-          input: 10
-          output: 50
-          cacheRead: 0.5
-          cacheWrite: 6.25
-        headers:
-          User-Agent: *claude
+      # - id: claude-fable-5
+      #   name: Claude Fable 5
+      #   api: anthropic-messages
+      #   reasoning: true
+      #   contextWindow: 1000000
+      #   input: [text, image]
+      #   cost:
+      #     input: 10
+      #     output: 50
+      #     cacheRead: 0.5
+      #     cacheWrite: 6.25
+      #   headers:
+      #     User-Agent: *claude
       - id: gpt-5.5
         name: GPT-5.5
         reasoning: true

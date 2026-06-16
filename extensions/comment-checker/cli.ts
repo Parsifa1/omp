@@ -80,21 +80,6 @@ export function getCommentCheckerPathSync(): string | null {
   return resolvedCliPath ?? findCommentCheckerPathSync();
 }
 
-/**
- * Start background initialization.
- * Call this early to trigger download while other init happens.
- */
-export function startBackgroundInit(): void {
-  if (!initPromise) {
-    initPromise = getCommentCheckerPath();
-    initPromise.then(path => {
-      debugLog("background init complete:", path || "no binary");
-    }).catch(err => {
-      debugLog("background init error:", err);
-    });
-  }
-}
-
 export interface HookInput {
   session_id: string;
   tool_name: string;
@@ -226,20 +211,4 @@ export async function runCommentChecker(
     debugLog("failed to run comment-checker:", err);
     return { hasComments: false, message: "" };
   }
-}
-
-/**
- * Check if CLI is available (sync check, no download).
- */
-export function isCliAvailable(): boolean {
-  const path = getCommentCheckerPathSync();
-  return path !== null && existsSync(path);
-}
-
-/**
- * Check if CLI will be available (async, may trigger download).
- */
-export async function ensureCliAvailable(): Promise<boolean> {
-  const path = await getCommentCheckerPath();
-  return path !== null && existsSync(path);
 }

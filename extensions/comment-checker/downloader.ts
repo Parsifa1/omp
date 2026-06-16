@@ -1,10 +1,7 @@
-import { appendFileSync, chmodSync, existsSync, mkdirSync, unlinkSync } from "fs";
-import { createWriteStream } from "fs";
+import { appendFileSync, chmodSync, createWriteStream, existsSync, mkdirSync, unlinkSync } from "fs";
 import { homedir, tmpdir } from "os";
 import { join } from "path";
 import { pipeline } from "stream/promises";
-import { extract as tarExtract } from "tar";
-import { createGunzip } from "zlib";
 
 const DEBUG = process.env.COMMENT_CHECKER_DEBUG === "1";
 const DEBUG_FILE = join(tmpdir(), "comment-checker-debug.log");
@@ -92,25 +89,12 @@ async function downloadFile(url: string, dest: string): Promise<void> {
 }
 
 /**
- * Extract tar.gz archive.
+ * Extract a .tar.gz or .zip archive using Bun's native archive support.
+ * Bun.Archive auto-detects the format and validates paths during extraction.
  */
-async function extractTarGz(archivePath: string, destDir: string): Promise<void> {
-  await tarExtract({
-    file: archivePath,
-    cwd: destDir,
-  });
-}
-
-/**
- * Extract zip archive (basic implementation for Windows).
- */
-// @ts-ignore - adm-zip has no type definitions
-async function extractZip(archivePath: string, destDir: string): Promise<void> {
-  // For Windows, we need a zip extractor
-  // Using a simple approach with unzipper or similar
-  const AdmZip = (await import("adm-zip")).default;
-  const zip = new AdmZip(archivePath);
-  zip.extractAllTo(destDir, true);
+async function extractArchive(archivePath: string, destDir: string): Promise<void> {
+  const bytes = await Bun.file(archivePath).bytes();
+  await new Bun.Archive(bytes).extract(destDir);
 }
 
 /**
@@ -182,13 +166,8 @@ export async function downloadCommentChecker(): Promise<string | null> {
 
     debugLog(`Downloaded archive to: ${archivePath}`);
 
-    // Extract based on file type
-    if (ext === "tar.gz") {
-      debugLog("Extracting tar.gz:", archivePath, "to", cacheDir);
-      await extractTarGz(archivePath, cacheDir);
-    } else {
-      await extractZip(archivePath, cacheDir);
-    }
+    debugLog("Extracting archive:", archivePath, "to", cacheDir);
+    await extractArchive(archivePath, cacheDir);
 
     cleanupArchive(archivePath);
     ensureExecutable(binaryPath);

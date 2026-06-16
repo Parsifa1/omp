@@ -1,15 +1,7 @@
 import type { ImageContent, TextContent } from "@oh-my-pi/pi-ai";
-import type { ExtensionAPI, ToolCallEvent, ToolResultEvent, ToolResultEventResult } from "@oh-my-pi/pi-coding-agent";
-import type { PendingCall } from "./types";
+import type { ExtensionAPI, ToolResultEvent, ToolResultEventResult } from "@oh-my-pi/pi-coding-agent";
 
-import {
-  getCommentCheckerCliPathPromise,
-  initializeCommentCheckerCli,
-  isCliPathUsable,
-  processApplyPatchEditsWithCli,
-  processWithCli,
-} from "./cli-runner";
-import { registerPendingCall, startPendingCallCleanup, takePendingCall } from "./pending-calls";
+import { runCommentChecker, getCommentCheckerPath } from "./cli";
 
 import * as fs from "fs";
 import { tmpdir } from "os";
@@ -21,9 +13,7 @@ const DEBUG_FILE = join(tmpdir(), "comment-checker-debug.log");
 function debugLog(...args: unknown[]) {
   if (DEBUG) {
     const msg = `[${new Date().toISOString()}] [comment-checker:hook] ${
-      args
-        .map((a) => (typeof a === "object" ? JSON.stringify(a, null, 2) : String(a)))
-        .join(" ")
+      args.map((a) => (typeof a === "object" ? JSON.stringify(a, null, 2) : String(a))).join(" ")
     }\n`;
     fs.appendFileSync(DEBUG_FILE, msg);
   }
@@ -46,70 +36,117 @@ function appendToContent(
 ): Array<TextContent | ImageContent> {
   const lastText = content.findLast((c): c is TextContent => c.type === "text");
   if (lastText && lastText.text) {
-    return [
-      ...content.slice(0, -1),
-      { type: "text" as const, text: `${lastText.text}\n\n${message}` },
-    ];
+    return [...content.slice(0, -1), { type: "text" as const, text: `${lastText.text}\n\n${message}` }];
   }
   return [...content, { type: "text" as const, text: message }];
+}
+
+/** EditToolPerFileResult shape (subset needed for extraction) */
+interface EditFileResult {
+  path: string;
+  diff?: string;
+  op?: string;
+}
+
+/** EditToolDetails shape (subset needed for extraction) */
+interface EditDetails {
+  path?: string;
+  diff?: string;
+  op?: string;
+  perFileResults?: EditFileResult[];
+}
+
+/** WriteToolInput shape (subset) */
+interface WriteInput {
+  path?: string;
+  content?: string;
+}
+
+/** A single file's changed content, expressed as the slice the CLI's Edit mode diffs. */
+interface TouchedFile {
+  path: string;
+  oldString: string;
+  newString: string;
+}
+
+/**
+ * Split a hashline edit diff into the removed/added line slices.
+ * Diff rows are `${prefix}${lineNum}|${content}` (see generateDiffString):
+ * `+` rows are the post-edit additions, `-` rows the pre-edit removals,
+ * ` ` context rows are dropped. Feeding both slices to the CLI's Edit mode
+ * lets it report only comments new to this change, not pre-existing ones.
+ */
+function splitDiffToOldNew(diff: string): { oldString: string; newString: string } {
+  const oldLines: string[] = [];
+  const newLines: string[] = [];
+  for (const line of diff.split("\n")) {
+    const match = /^([+\- ])\d+\|(.*)$/.exec(line);
+    if (!match) continue;
+    const [, prefix, content] = match;
+    if (prefix === "+") newLines.push(content);
+    else if (prefix === "-") oldLines.push(content);
+  }
+  return { oldString: oldLines.join("\n"), newString: newLines.join("\n") };
+}
+
+/**
+ * Extract files touched by a write/edit operation as Edit-mode diff slices.
+ * Write: full content lands in `newString` (no prior content to diff against).
+ * Edit (hashline): pulls the unified `diff` from details — single-file from
+ * `details.diff` (path from `details.path`, falling back to the `[PATH#TAG]`
+ * header in the patch input), multi-file from `perFileResults`. Skips deletes
+ * and empty diffs.
+ */
+function extractTouchedFiles(
+  toolName: string,
+  input: Record<string, unknown>,
+  details: unknown,
+): TouchedFile[] {
+  const results: TouchedFile[] = [];
+
+  if (toolName === "write") {
+    const writeInput = input as WriteInput;
+    const { path, content } = writeInput;
+    if (typeof path === "string" && typeof content === "string") {
+      results.push({ path, oldString: "", newString: content });
+    }
+    return results;
+  }
+
+  if (toolName === "edit") {
+    const editDetails = details as EditDetails | undefined;
+    if (!editDetails) return results;
+
+    // Multi-file edit: each perFileResult carries its own path + diff.
+    if (editDetails.perFileResults && editDetails.perFileResults.length > 0) {
+      for (const fileResult of editDetails.perFileResults) {
+        if (fileResult.op === "delete" || !fileResult.diff) continue;
+        const { oldString, newString } = splitDiffToOldNew(fileResult.diff);
+        results.push({ path: fileResult.path, oldString, newString });
+      }
+      return results;
+    }
+
+    // Single-file edit: details omits the path in hashline mode, so recover it
+    // from the first `[PATH#TAG]` header in the patch input.
+    if (editDetails.op === "delete" || !editDetails.diff) return results;
+    const inputText = typeof input.input === "string" ? input.input : "";
+    const headerMatch = /^\[(.+)#[0-9A-Fa-f]{4}\]$/m.exec(inputText);
+    const path = editDetails.path ?? headerMatch?.[1];
+    if (!path) return results;
+    const { oldString, newString } = splitDiffToOldNew(editDetails.diff);
+    results.push({ path, oldString, newString });
+    return results;
+  }
+
+  return results;
 }
 
 export function createCommentCheckerHook(api: ExtensionAPI, config?: CommentCheckerConfig) {
   debugLog("createCommentCheckerHook called", { config });
 
-  startPendingCallCleanup();
-  initializeCommentCheckerCli(debugLog);
-
-  // Subscribe to tool_call (before execution)
-  api.on("tool_call", async (event: ToolCallEvent) => {
-    debugLog("tool_call:", {
-      toolName: event.toolName,
-      toolCallId: event.toolCallId,
-      input: event.input,
-    });
-
-    const toolLower = event.toolName.toLowerCase();
-    if (toolLower !== "write" && toolLower !== "edit" && toolLower !== "multiedit") {
-      debugLog("skipping non-write/edit tool:", toolLower);
-      return;
-    }
-
-    // Type assertion for input - TypeScript can't narrow the union type automatically
-    const input = event.input as Record<string, unknown>;
-    const filePath = (input.filePath
-      ?? input.file_path
-      ?? input.path) as string | undefined;
-    const content = input.content as string | undefined;
-    const oldString = (input.oldString ?? input.old_string) as string | undefined;
-    const newString = (input.newString ?? input.new_string) as string | undefined;
-    const edits = input.edits as Array<{ old_string: string; new_string: string }> | undefined;
-
-    debugLog("extracted filePath:", filePath);
-
-    if (!filePath) {
-      debugLog("no filePath found");
-      return;
-    }
-
-    // Get sessionID from somewhere - for now use a placeholder
-    const sessionID = "default-session";
-
-    debugLog("registering pendingCall:", {
-      callID: event.toolCallId,
-      filePath,
-      tool: toolLower,
-    });
-    registerPendingCall(event.toolCallId, {
-      filePath,
-      content,
-      oldString,
-      newString,
-      edits,
-      tool: toolLower as PendingCall["tool"],
-      sessionID,
-      timestamp: Date.now(),
-    });
-  });
+  // Trigger background CLI initialization (download if needed)
+  void getCommentCheckerPath();
 
   // Subscribe to tool_result (after execution)
   api.on("tool_result", async (event: ToolResultEvent): Promise<ToolResultEventResult | void> => {
@@ -117,106 +154,80 @@ export function createCommentCheckerHook(api: ExtensionAPI, config?: CommentChec
 
     const toolLower = event.toolName.toLowerCase();
 
-    // Skip if tool execution failed
+    // Only process write and edit tools
+    if (toolLower !== "write" && toolLower !== "edit") {
+      debugLog("skipping non-write/edit tool:", toolLower);
+      return;
+    }
+
+    // Skip if tool execution failed (use structured isError, not heuristics)
     if (event.isError) {
       debugLog("skipping due to tool error");
       return;
     }
 
-    const outputText = getTextContent(event.content as any);
-    const outputLower = outputText.toLowerCase();
-    const isToolFailure = outputLower.includes("error:")
-      || outputLower.includes("failed to")
-      || outputLower.includes("could not")
-      || outputLower.startsWith("error");
-
-    if (isToolFailure) {
-      debugLog("skipping due to tool failure in output");
+    // Extract files touched by this operation
+    const files = extractTouchedFiles(toolLower, event.input, event.details);
+    if (files.length === 0) {
+      debugLog("no files to check (likely delete operation or missing details)");
       return;
     }
 
-    // Handle apply_patch specially if we detect it
-    // Note: oh-my-pi might not have apply_patch, but keeping for compatibility
-    if (toolLower === "apply_patch" && event.details) {
+    debugLog(`checking ${files.length} file(s):`, files.map((f) => f.path));
+
+    // Get CLI path (may trigger lazy download on first call)
+    const cliPath = await getCommentCheckerPath();
+    if (!cliPath) {
+      debugLog("CLI not available, skipping comment check");
+      return;
+    }
+
+    debugLog("using CLI:", cliPath);
+
+    // Check each file for comments
+    const warnings: string[] = [];
+    for (const file of files) {
       try {
-        const metadata = event.details as any;
-        if (metadata.files && Array.isArray(metadata.files)) {
-          const edits = metadata.files
-            .filter((f: any) => f.type !== "delete")
-            .map((f: any) => ({
-              filePath: f.movePath ?? f.filePath,
-              before: f.before,
-              after: f.after,
-            }));
+        const result = await runCommentChecker(
+          {
+            session_id: "default-session",
+            // Both write and edit feed the CLI's Edit mode: old_string/new_string
+            // are the pre/post slices of the change, so the CLI reports only
+            // comments introduced by this operation. For write, oldString is
+            // empty, so every comment in the new content counts as new.
+            tool_name: "Edit",
+            transcript_path: "",
+            cwd: process.cwd(),
+            hook_event_name: "PostToolUse",
+            tool_input: {
+              file_path: file.path,
+              old_string: file.oldString,
+              new_string: file.newString,
+            },
+          },
+          cliPath,
+          config?.custom_prompt,
+        );
 
-          if (edits.length === 0) {
-            debugLog("apply_patch had no editable files, skipping");
-            return;
-          }
-
-          const cliPath = await getCommentCheckerCliPathPromise();
-          if (!isCliPathUsable(cliPath)) {
-            debugLog("CLI not available, skipping comment check");
-            return;
-          }
-
-          debugLog("using CLI for apply_patch:", cliPath);
-          const output = { output: outputText };
-          await processApplyPatchEditsWithCli(
-            "default-session",
-            edits,
-            output,
-            cliPath,
-            config?.custom_prompt,
-            debugLog,
-          );
-
-          if (output.output !== outputText) {
-            return {
-              content: appendToContent(event.content as any, output.output.slice(outputText.length)),
-            };
-          }
+        if (result.hasComments && result.message) {
+          debugLog(`comments detected in ${file.path}`);
+          warnings.push(result.message);
         }
       } catch (err) {
-        debugLog("apply_patch comment check failed:", err);
+        debugLog(`comment check failed for ${file.path}:`, err);
+        // Continue checking other files even if one fails
       }
-      return;
     }
 
-    const pendingCall = takePendingCall(event.toolCallId);
-    if (!pendingCall) {
-      debugLog("no pendingCall found for:", event.toolCallId);
-      return;
+    // Append warnings if any comments were detected
+    if (warnings.length > 0) {
+      const combinedWarning = warnings.join("\n\n---\n\n");
+      debugLog("appending combined warning to tool result");
+      return {
+        content: appendToContent(event.content, combinedWarning),
+      };
     }
 
-    debugLog("processing pendingCall:", pendingCall);
-
-    try {
-      const cliPath = await getCommentCheckerCliPathPromise();
-      if (!isCliPathUsable(cliPath)) {
-        debugLog("CLI not available, skipping comment check");
-        return;
-      }
-
-      debugLog("using CLI:", cliPath);
-      const output = { output: outputText };
-      await processWithCli(
-        { tool: event.toolName, sessionID: pendingCall.sessionID, callID: event.toolCallId },
-        pendingCall,
-        output,
-        cliPath,
-        config?.custom_prompt,
-        debugLog,
-      );
-
-      if (output.output !== outputText) {
-        // Comments were detected and message was appended
-        return {
-          content: appendToContent(event.content as any, output.output.slice(outputText.length)),
-        };
-      }
-    } catch (err) {
-      debugLog("tool_result processing failed:", err);
-    }
+    debugLog("no comments detected");
   });
 }

@@ -6,4 +6,3 @@ export default function commentChecker(api: ExtensionAPI, config?: CommentChecke
 }
 
 export type { CommentCheckerConfig } from "./hook";
-export type { CommentInfo, CommentType, PendingCall } from "./types";
