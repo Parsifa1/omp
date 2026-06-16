@@ -10,7 +10,12 @@ import { createConnection } from "node:net";
 const HERDR_ENV = process.env.HERDR_ENV;
 const socketPath = process.env.HERDR_SOCKET_PATH;
 const paneId = process.env.HERDR_PANE_ID;
-const source = "herdr:omp";
+// Non-official source: avoids herdr's full-lifecycle-hook suppression (#614),
+// which is keyed on the official (herdr:omp, omp) pair and sticks permanently
+// after exit/release until a server restart. A non-authority source is never
+// suppressed, so omp reliably re-registers on same-pane restart. The agent
+// label stays "omp" so the Agents panel still shows omp.
+const source = "omp:lifecycle";
 
 function enabled() {
   return HERDR_ENV === "1" && !!socketPath && !!paneId;
