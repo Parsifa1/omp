@@ -81,17 +81,10 @@ providers:
         contextWindow: 1000000
         input: [text, image]
         cost: { input: 0.5, output: 3, cacheRead: 0.05, cacheWrite: 0.05 }
-      - id: glm-5.1
-        name: GLM 5.1
+      - id: glm-5.2
+        api: anthropic-messages
+        name: GLM 5.2
         input: [text]
-        contextWindow: 202752
+        max_tokens: 1000000
+        contextWindow: 1000000
         cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
-      # - id: claude-fable-5
-      #   name: Claude Fable 5
-      #   api: anthropic-messages
-      #   reasoning: true
-      #   contextWindow: 1000000
-      #   input: [text, image]
-      #   cost: { input: 10, output: 50, cacheRead: 0.5, cacheWrite: 6.25 }
-      #   headers:
-      #     User-Agent: *claude

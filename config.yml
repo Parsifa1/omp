@@ -29,7 +29,7 @@ statusLine:
   showHookStatus: true
 showHardwareCursor: true
 modelRoles:
-  default: axonhub/gpt-5.5
+  default: axonhub/glm-5.2
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5.4-mini
@@ -75,6 +75,7 @@ task:
     mode: auto
     commits: generic
   eager: default
+  showResolvedModelBadge: true
 commands:
   enableClaudeUser: false
   enableClaudeProject: false
@@ -85,27 +86,22 @@ read:
 disabledExtensions:
   - skill:opencode-skill-install-flow
   - slash-command:copilot-stats
-  - skill:document-skills:mcp-builder
-  - skill:document-skills:skill-creator
-  - skill:document-skills:slack-gif-creator
-  - extension-module:context-prune
-readHashLines: true
+  - skill:mcp-builder
+  - skill:skill-creator
+  - skill:slack-gif-creator
 checkpoint:
   enabled: false
 tools:
   intentTracing: true
-  discoveryMode: mcp-only
-repeatToolDescriptions: false
 ttsr:
   contextMode: discard
   repeatMode: after-gap
   repeatGap: 5
 todo:
-  reminders:
-    max: 5
+  reminders: true
+  remindersMax: 5
   eager: default
 mcp:
-  discoveryMode: true
   notifications: true
 providers:
   webSearch: exa

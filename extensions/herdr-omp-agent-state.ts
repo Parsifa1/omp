@@ -2,7 +2,7 @@
 // managed by herdr; reinstalling or updating the integration overwrites this file.
 // add custom hooks/plugins beside this file instead of editing it.
 // HERDR_INTEGRATION_ID=omp
-// HERDR_INTEGRATION_VERSION=2
+// HERDR_INTEGRATION_VERSION=4
 // @ts-nocheck
 
 import { createConnection } from "node:net";
@@ -10,18 +10,15 @@ import { createConnection } from "node:net";
 const HERDR_ENV = process.env.HERDR_ENV;
 const socketPath = process.env.HERDR_SOCKET_PATH;
 const paneId = process.env.HERDR_PANE_ID;
-// Non-official source: avoids herdr's full-lifecycle-hook suppression (#614),
-// which is keyed on the official (herdr:omp, omp) pair and sticks permanently
-// after exit/release until a server restart. A non-authority source is never
-// suppressed, so omp reliably re-registers on same-pane restart. The agent
-// label stays "omp" so the Agents panel still shows omp.
-const source = "omp:lifecycle";
+const source = "herdr:omp";
 
 function enabled() {
   return HERDR_ENV === "1" && !!socketPath && !!paneId;
 }
 
-function sendRequest(request: unknown): Promise<void> {
+let requestQueue = Promise.resolve();
+
+function sendRequestNow(request: unknown): Promise<void> {
   if (!enabled()) {
     return Promise.resolve();
   }
@@ -45,6 +42,14 @@ function sendRequest(request: unknown): Promise<void> {
   });
 }
 
+function sendRequest(request: unknown): Promise<void> {
+  requestQueue = requestQueue.then(
+    () => sendRequestNow(request),
+    () => sendRequestNow(request),
+  );
+  return requestQueue;
+}
+
 type AgentState = "working" | "blocked" | "idle";
 
 type QueuedState = {
@@ -58,10 +63,39 @@ const retryGraceMs = parseDurationEnv("HERDR_OMP_RETRY_GRACE_MS", 2500);
 const retryableErrorPattern =
   /overloaded|provider.?returned.?error|rate.?limit|too many requests|429|500|502|503|504|service.?unavailable|server.?error|internal.?error|network.?error|connection.?error|connection.?refused|connection.?lost|websocket.?closed|websocket.?error|other side closed|fetch failed|upstream.?connect|reset before headers|socket hang up|ended without|http2 request did not get a response|timed? out|timeout|terminated|retry delay/i;
 let reportSeq = Date.now() * 1000;
+let currentAgentSessionId: string | undefined;
+let currentAgentSessionPath: string | undefined;
 
 function nextReportSeq(): number {
   reportSeq += 1;
   return reportSeq;
+}
+
+function updateSessionRef(ctx: any): void {
+  try {
+    const file = ctx?.sessionManager?.getSessionFile?.();
+    currentAgentSessionPath =
+      typeof file === "string" && file.startsWith("/") ? file : undefined;
+  } catch {
+    currentAgentSessionPath = undefined;
+  }
+
+  try {
+    const id = ctx?.sessionManager?.getSessionId?.();
+    currentAgentSessionId = typeof id === "string" && id.length > 0 ? id : undefined;
+  } catch {
+    currentAgentSessionId = undefined;
+  }
+}
+
+function withSessionRef(params: Record<string, unknown>): Record<string, unknown> {
+  if (currentAgentSessionPath) {
+    return { ...params, agent_session_path: currentAgentSessionPath };
+  }
+  if (currentAgentSessionId) {
+    return { ...params, agent_session_id: currentAgentSessionId };
+  }
+  return params;
 }
 
 function parseDurationEnv(name: string, fallback: number): number {
@@ -76,19 +110,72 @@ function parseDurationEnv(name: string, fallback: number): number {
   return parsed;
 }
 
+function currentSessionRef(): Record<string, unknown> | undefined {
+  if (currentAgentSessionPath) {
+    return { agent_session_path: currentAgentSessionPath };
+  }
+  if (currentAgentSessionId) {
+    return { agent_session_id: currentAgentSessionId };
+  }
+  return undefined;
+}
+
+function reportSession(sessionStartSource = "startup"): Promise<void> {
+  const sessionRef = currentSessionRef();
+  if (!sessionRef) {
+    return Promise.resolve();
+  }
+
+  return sendRequest({
+    id: `${source}:session:${Date.now()}:${Math.random().toString(36).slice(2)}`,
+    method: "pane.report_agent_session",
+    params: {
+      pane_id: paneId,
+      source,
+      agent: "omp",
+      seq: nextReportSeq(),
+      session_start_source: sessionStartSource,
+      ...sessionRef,
+    },
+  });
+}
+
 function sendState(state: AgentState, message?: string, seq = nextReportSeq()): Promise<void> {
   return sendRequest({
     id: `${source}:${Date.now()}:${Math.random().toString(36).slice(2)}`,
     method: "pane.report_agent",
-    params: {
+    params: withSessionRef({
       pane_id: paneId,
       source,
       agent: "omp",
       state,
       message,
       seq,
+    }),
+  });
+}
+
+function releaseAgent(): Promise<void> {
+  return sendRequest({
+    id: `${source}:release:${Date.now()}:${Math.random().toString(36).slice(2)}`,
+    method: "pane.release_agent",
+    params: {
+      pane_id: paneId,
+      source,
+      agent: "omp",
+      seq: nextReportSeq(),
     },
   });
+}
+
+function shouldReleaseOnSessionShutdown(event: any): boolean {
+  // OMP tears down and rebinds extension runtimes for internal lifecycle actions
+  // such as /reload, /new, /resume, and /fork. Those do not mean the pane's
+  // agent process has exited, and releasing hook authority there can suppress
+  // legitimate reports from the replacement runtime. Only a user/process quit
+  // should release Herdr's full-lifecycle authority.
+  const reason = event?.reason;
+  return reason === "quit";
 }
 
 let sendInFlight = false;
@@ -145,17 +232,13 @@ function retryableErrorMessage(event: any): string | undefined {
   return errorMessage || "retryable provider error";
 }
 
-function releaseAgent(): Promise<void> {
-  return sendRequest({
-    id: `${source}:release:${Date.now()}:${Math.random().toString(36).slice(2)}`,
-    method: "pane.release_agent",
-    params: {
-      pane_id: paneId,
-      source,
-      agent: "omp",
-      seq: nextReportSeq(),
-    },
-  });
+function askBlockedMessage(args: any): string {
+  const questions = Array.isArray(args?.questions) ? args.questions : [];
+  const firstQuestion = questions.find((question: any) => typeof question?.question === "string");
+  if (firstQuestion?.question) {
+    return firstQuestion.question;
+  }
+  return "waiting for user input";
 }
 
 export default function (pi) {
@@ -173,6 +256,7 @@ export default function (pi) {
   let lastMessage: string | undefined;
   let idleTimer: ReturnType<typeof setTimeout> | undefined;
   let retryTimer: ReturnType<typeof setTimeout> | undefined;
+  let rootSession = false;
 
   function clearTimer(timer: ReturnType<typeof setTimeout> | undefined) {
     if (timer) {
@@ -206,9 +290,9 @@ export default function (pi) {
     return { state: "idle" as const, message: undefined };
   }
 
-  function publishState() {
+  function publishState(force = false) {
     const next = desiredState();
-    if (next.state === lastState && next.message === lastMessage) {
+    if (!force && next.state === lastState && next.message === lastMessage) {
       return;
     }
     lastState = next.state;
@@ -242,34 +326,119 @@ export default function (pi) {
     retryTimer.unref?.();
   }
 
+  function activateRootSession(ctx: any, sessionStartSource = "startup"): boolean {
+    if (ctx?.hasUI !== true) {
+      return false;
+    }
+    rootSession = true;
+    updateSessionRef(ctx);
+    void reportSession(sessionStartSource);
+    return true;
+  }
+
+  function resetSessionState() {
+    clearPendingTimers();
+    clearFailureState();
+    agentActive = false;
+    blockedCount = 0;
+    blockedMessage = undefined;
+  }
+
+  function activateBlocked(message: string | undefined) {
+    clearPendingTimers();
+    blockedCount += 1;
+    blockedMessage = message;
+    publishState();
+  }
+
+  function deactivateBlocked() {
+    blockedCount = Math.max(0, blockedCount - 1);
+    if (blockedCount === 0) {
+      blockedMessage = undefined;
+    }
+    publishState();
+  }
+
   pi.events.on("herdr:blocked", (data) => {
+    if (!rootSession) {
+      return;
+    }
     if (!data?.active) {
-      blockedCount = Math.max(0, blockedCount - 1);
-      if (blockedCount === 0) {
-        blockedMessage = undefined;
-      }
-      publishState();
+      deactivateBlocked();
       return;
     }
 
-    clearPendingTimers();
-    blockedCount += 1;
-    blockedMessage = data.label;
-    publishState();
+    activateBlocked(data.label);
   });
 
-  pi.on("session_start", () => {
-    publishState();
+  pi.on("session_start", (_event, ctx) => {
+    if (!activateRootSession(ctx)) {
+      return;
+    }
+    // A reload can replace this extension mid-run without emitting another agent_start.
+    agentActive = ctx?.isIdle?.() === false;
+    publishState(true);
   });
 
-  pi.on("agent_start", () => {
+  pi.on("session_switch", (event, ctx) => {
+    if (!activateRootSession(ctx, event?.reason || "resume")) {
+      return;
+    }
+    resetSessionState();
+    publishState(true);
+  });
+
+  pi.on("agent_start", (_event, ctx) => {
+    if (!rootSession && !activateRootSession(ctx)) {
+      return;
+    }
+    updateSessionRef(ctx);
+    void reportSession();
     clearPendingTimers();
     clearFailureState();
     agentActive = true;
     publishState();
   });
 
+  pi.on("tool_approval_requested", (event, ctx) => {
+    if (!rootSession && !activateRootSession(ctx)) {
+      return;
+    }
+    const label = event?.reason || `${event?.toolName || "Tool"} approval`;
+    activateBlocked(label);
+  });
+
+  pi.on("tool_approval_resolved", (_event, ctx) => {
+    if (!rootSession && !activateRootSession(ctx)) {
+      return;
+    }
+    deactivateBlocked();
+  });
+
+  pi.on("tool_execution_start", (event, ctx) => {
+    if (event?.toolName !== "ask") {
+      return;
+    }
+    if (!rootSession && !activateRootSession(ctx)) {
+      return;
+    }
+    activateBlocked(askBlockedMessage(event.args));
+  });
+
+  pi.on("tool_execution_end", (event, ctx) => {
+    if (event?.toolName !== "ask") {
+      return;
+    }
+    if (!rootSession && !activateRootSession(ctx)) {
+      return;
+    }
+    deactivateBlocked();
+  });
+
   pi.on("agent_end", (event) => {
+    if (!rootSession) {
+      return;
+    }
     if (!agentActive) {
       // OMP can emit duplicate/late end events while auto-retry is already
       // holding the pane in Working. Do not let an unqualified duplicate end
@@ -288,8 +457,13 @@ export default function (pi) {
     scheduleIdle();
   });
 
-  pi.on("session_shutdown", async () => {
+  pi.on("session_shutdown", async (event) => {
+    if (!rootSession) {
+      return;
+    }
     clearPendingTimers();
-    await releaseAgent();
+    if (shouldReleaseOnSessionShutdown(event)) {
+      await releaseAgent();
+    }
   });
 }
