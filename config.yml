@@ -38,7 +38,7 @@ modelRoles:
   plan: axonhub/gpt-5.5
   slow: axonhub/claude-opus-4-8
 browser:
-  headless: true
+  headless: false
 secrets:
   enabled: true
 edit:

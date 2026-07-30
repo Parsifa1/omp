@@ -40,6 +40,22 @@ providers:
         cost: { input: 5, output: 30, cacheRead: 0.5, cacheWrite: 0 }
         headers:
           User-Agent: &codex codex-tui/0.135.0 (NixOS 26.11.0; x86_64) WezTerm/20260331-040028-577474d8 (codex-tui; 0.135.0)
+      - id: gpt-5.6-sol
+        name: GPT-5.6 Sol
+        reasoning: true
+        contextWindow: 1050000
+        input: [text, image]
+        cost: { input: 5, output: 30, cacheRead: 0.5, cacheWrite: 6.25 }
+        headers:
+          User-Agent: *codex
+      - id: gpt-5.6-terra
+        name: GPT-5.6 Terra
+        reasoning: true
+        contextWindow: 1050000
+        input: [text, image]
+        cost: { input: 2.5, output: 15, cacheRead: 0.25, cacheWrite: 3.725 }
+        headers:
+          User-Agent: *codex
       - id: gpt-5.4
         name: GPT-5.4
         contextWindow: 1000000
@@ -53,10 +69,7 @@ providers:
         contextWindow: 400000
         headers:
           User-Agent: *codex
-        thinking:
-          mode: effort
-          minLevel: low
-          maxLevel: high
+        thinking: { mode: effort, minLevel: low, maxLevel: high }
         input: [text]
         cost: { input: 0.25, output: 2, cacheRead: 0.025, cacheWrite: 0.025 }
       - id: gpt-5.4-mini
@@ -87,4 +100,5 @@ providers:
         input: [text]
         max_tokens: 1000000
         contextWindow: 1000000
+        thinking: { mode: anthropic-adaptive, minLevel: minimal, maxLevel: max }
         cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
