@@ -29,7 +29,7 @@ statusLine:
   showHookStatus: true
 showHardwareCursor: true
 modelRoles:
-  default: axonhub/glm-5.2
+  default: axonhub/glm-5.2:xhigh
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5.4-mini
