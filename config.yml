@@ -37,6 +37,7 @@ modelRoles:
   review: axonhub/gpt-5.5
   plan: axonhub/gpt-5.5
   slow: axonhub/claude-opus-4-8
+  advisor: axonhub/deepseek-v4-flash
 browser:
   headless: false
 secrets:
