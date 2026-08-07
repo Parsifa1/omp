@@ -1,5 +1,6 @@
 startup:
   checkUpdate: false
+  changelogMode: summary
 theme:
   dark: everforest
 symbolPreset: nerd
@@ -62,11 +63,10 @@ memories:
   enabled: true
 branchSummary:
   enabled: true
-collapseChangelog: true
 renderMermaid:
   enabled: true
 inspect_image:
-  enabled: true
+  mode: "on"
 calc:
   enabled: true
 async:
@@ -90,6 +90,7 @@ disabledExtensions:
   - skill:mcp-builder
   - skill:skill-creator
   - skill:slack-gif-creator
+  - extension-module:skill-mcp
 checkpoint:
   enabled: false
 tools:
@@ -105,7 +106,30 @@ todo:
 mcp:
   notifications: true
 providers:
-  webSearch: exa
+  webSearchOrder:
+    - exa
+    - perplexity
+    - gemini
+    - anthropic
+    - codex
+    - xai
+    - zai
+    - tinyfish
+    - jina
+    - kagi
+    - tavily
+    - firecrawl
+    - brave
+    - kimi
+    - parallel
+    - synthetic
+    - searxng
+    - startpage
+    - duckduckgo
+    - ecosia
+    - google
+    - mojeek
+    - public
 memory:
   backend: mnemopi
 disabledProviders:

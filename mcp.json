@@ -4,14 +4,15 @@
       "type": "http",
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-       "Authorization": "Bearer ${CONTEXT7_API_KEY}"
-     }
+        "Authorization": "Bearer ${CONTEXT7_API_KEY}"
+      }
     },
     "grep-app": {
       "type": "http",
       "url": "https://mcp.grep.app"
     },
     "firefox-devtools": {
+      "enabled": "${FIREFOX_DEVTOOLS_ENABLED:-false}",
       "command": "pnpx",
       "args": [
         "@padenot/firefox-devtools-mcp@latest",
@@ -24,7 +25,13 @@
         "START_URL": "about:home",
         "MOZ_REMOTE_ALLOW_SYSTEM_ACCESS": "1"
       }
+    },
+    "HopperMCPServer": {
+      "enabled": "${HOPPER_MCP_ENABLED:-false}",
+      "command": "/Applications/Hopper Disassembler.app/Contents/MacOS/HopperMCPServer",
+      "args": [],
+      "env": {}
     }
   },
-  "disabledServers": ["firefox-devtools"]
+  "disabledServers": []
 }
