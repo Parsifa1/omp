@@ -4,6 +4,8 @@ startup:
 theme:
   dark: everforest
 symbolPreset: nerd
+composer:
+  shape: pi
 statusLine:
   preset: custom
   separator: none
@@ -30,7 +32,7 @@ statusLine:
   showHookStatus: true
 showHardwareCursor: true
 modelRoles:
-  default: axonhub/glm-5.2:xhigh
+  default: axonhub/glm-5.3:xhigh
   designer: axonhub/gemini-3.1-pro-preview
   vision: axonhub/gemini-3.1-pro-preview
   smol: axonhub/gpt-5.4-mini
@@ -38,7 +40,6 @@ modelRoles:
   review: axonhub/gpt-5.5
   plan: axonhub/gpt-5.5
   slow: axonhub/claude-opus-4-8
-  advisor: axonhub/deepseek-v4-flash
 browser:
   headless: false
 secrets:
@@ -53,10 +54,12 @@ contextPromotion:
 compaction:
   enabled: true
   thresholdPercent: 85
-  strategy: snapcompact
-  remoteEnabled: true
   handoffSaveToDisk: false
   supersedeReads: true
+  methodOrder:
+    - snapcompact
+    - remote
+    - soft
 retry:
   maxRetries: 5
 memories:
@@ -90,7 +93,6 @@ disabledExtensions:
   - skill:mcp-builder
   - skill:skill-creator
   - skill:slack-gif-creator
-  - extension-module:skill-mcp
 checkpoint:
   enabled: false
 tools:
@@ -146,7 +148,7 @@ bash:
   autoBackground:
     enabled: true
 clearOnShrink: false
-setupVersion: 1
+setupVersion: 2
 mnemopi:
   scoping: per-project-tagged
 defaultThinkingLevel: auto

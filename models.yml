@@ -81,9 +81,9 @@ providers:
         contextWindow: 1000000
         input: [text, image]
         cost: { input: 0.5, output: 3, cacheRead: 0.05, cacheWrite: 0.05 }
-      - id: glm-5.2
+      - id: glm-5.3
         api: anthropic-messages
-        name: GLM 5.2
+        name: GLM 5.3
         input: [text]
         max_tokens: 1000000
         contextWindow: 1000000
