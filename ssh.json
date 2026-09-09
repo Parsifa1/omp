@@ -1,0 +1,7 @@
+{
+  "hosts": {
+    "debian": { "host": "debian" },
+    "wsl": { "host": "cloudtide" },
+    "apfel": { "host": "apfel" }
+  }
+}

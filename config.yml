@@ -84,7 +84,7 @@ commands:
   enableClaudeUser: false
   enableClaudeProject: false
 bashInterceptor:
-  enabled: true
+  enabled: false
 read:
   defaultLimit: 300
 disabledExtensions:
