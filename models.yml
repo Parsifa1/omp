@@ -22,18 +22,10 @@ providers:
         reasoning: true
         contextWindow: 1000000
         maxTokens: 128000
-        input: [text]
+        input: [text, image]
         cost: { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 }
         headers:
           User-Agent: *claude
-      - id: gpt-5.5
-        name: GPT-5.5
-        reasoning: true
-        contextWindow: 1050000
-        input: [text, image]
-        cost: { input: 5, output: 30, cacheRead: 0.5, cacheWrite: 0 }
-        headers:
-          User-Agent: &codex codex-tui/0.135.0 (NixOS 26.11.0; x86_64) WezTerm/20260331-040028-577474d8 (codex-tui; 0.135.0)
       - id: gpt-5.6-sol
         name: GPT-5.6 Sol
         reasoning: true
@@ -41,7 +33,7 @@ providers:
         input: [text, image]
         cost: { input: 5, output: 30, cacheRead: 0.5, cacheWrite: 6.25 }
         headers:
-          User-Agent: *codex
+          User-Agent: &codex codex-tui/0.135.0 (NixOS 26.11.0; x86_64) WezTerm/20260331-040028-577474d8 (codex-tui; 0.135.0)
       - id: gpt-5.6-terra
         name: GPT-5.6 Terra
         reasoning: true
@@ -50,34 +42,13 @@ providers:
         cost: { input: 2.5, output: 15, cacheRead: 0.25, cacheWrite: 3.725 }
         headers:
           User-Agent: *codex
-      - id: gpt-5-mini
-        name: GPT-5 Mini
-        reasoning: true
-        contextWindow: 400000
-        headers:
-          User-Agent: *codex
-        thinking: { mode: effort, minLevel: low, maxLevel: high }
-        input: [text]
-        cost: { input: 0.25, output: 2, cacheRead: 0.025, cacheWrite: 0.025 }
-      - id: gpt-5.4-mini
-        name: GPT-5.4 Mini
-        reasoning: true
-        contextWindow: 400000
-        headers:
-          User-Agent: *codex
-        thinking:
-          mode: effort
-          minLevel: low
-          maxLevel: xhigh
-        input: [text]
-        cost: { input: 0.75, output: 4.5, cacheRead: 0.075, cacheWrite: 0.75 }
       - id: gemini-3.1-pro-preview
         name: Gemini 3.1 Pro Preview
         contextWindow: 1000000
         input: [text, image]
         cost: { input: 1.25, output: 10, cacheRead: 0.125, cacheWrite: 0.125 }
-      - id: gemini-3-flash-preview
-        name: Gemini 3 Flash Preview
+      - id: gemini-3.8-flash
+        name: Gemini 3.8 Flash
         contextWindow: 1000000
         input: [text, image]
         cost: { input: 0.5, output: 3, cacheRead: 0.05, cacheWrite: 0.05 }
@@ -95,6 +66,7 @@ providers:
         reasoning: true
         contextWindow: 1000000
         maxTokens: 384000
-        input: [text]
+        input: [text, image]
+        compat: { stripImageInput: false }
         thinking: { mode: effort, minLevel: high, maxLevel: max }
         cost: { input: 0.14, output: 0.28, cacheRead: 0.0028, cacheWrite: 0 }
