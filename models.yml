@@ -60,6 +60,14 @@ providers:
         contextWindow: 1000000
         thinking: { mode: anthropic-adaptive, minLevel: minimal, maxLevel: max }
         cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
+      - id: glm-5.3-flash
+        api: anthropic-messages
+        name: GLM 5.3
+        input: [text, image]
+        max_tokens: 1000000
+        contextWindow: 1000000
+        thinking: { mode: anthropic-adaptive, minLevel: minimal, maxLevel: max }
+        cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
       - id: deepseek-v4-flash
         name: DeepSeek V4 Flash
         api: openai-completions

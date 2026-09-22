@@ -84,7 +84,11 @@ commands:
   enableClaudeUser: false
   enableClaudeProject: false
 bashInterceptor:
-  enabled: false
+  enabled: true
+  patterns:
+    - pattern: '^\s*npx\s+'
+      tool: bash
+      message: "Project rule: use pnpm for everything Node. Use `pnpx <cmd>` instead of npx (pnpm dlx only for one-off temp runs)."
 read:
   defaultLimit: 300
 disabledExtensions:
