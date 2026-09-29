@@ -68,16 +68,14 @@ branchSummary:
   enabled: true
 renderMermaid:
   enabled: true
-inspect_image:
-  mode: "on"
 calc:
   enabled: true
 async:
   enabled: true
 task:
   isolation:
-    mode: auto
     commits: generic
+    enabled: true
   eager: default
   showResolvedModelBadge: true
 commands:
@@ -86,7 +84,7 @@ commands:
 bashInterceptor:
   enabled: true
   patterns:
-    - pattern: '^\s*npx\s+'
+    - pattern: ^\s*npx\s+
       tool: bash
       message: "Project rule: use pnpm for everything Node. Use `pnpx <cmd>` instead of npx (pnpm dlx only for one-off temp runs)."
 read:
@@ -111,31 +109,6 @@ todo:
   eager: default
 mcp:
   notifications: true
-providers:
-  webSearchOrder:
-    - exa
-    - perplexity
-    - gemini
-    - anthropic
-    - codex
-    - xai
-    - zai
-    - tinyfish
-    - jina
-    - kagi
-    - tavily
-    - firecrawl
-    - brave
-    - kimi
-    - parallel
-    - synthetic
-    - searxng
-    - startpage
-    - duckduckgo
-    - ecosia
-    - google
-    - mojeek
-    - public
 memory:
   backend: mnemopi
 disabledProviders:
@@ -158,3 +131,5 @@ mnemopi:
 defaultThinkingLevel: auto
 dev:
   autoqa: false
+isolation:
+  backend: auto
