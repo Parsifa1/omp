@@ -4,7 +4,6 @@ providers:
     api: openai-responses
     apiKey: AXONHUB_API_KEY
     headers:
-      User-Agent: &claude claude-cli/2.1.170 (external, cli)
       Accept: application/json
     models:
       - id: claude-opus-4-8
@@ -14,8 +13,6 @@ providers:
         contextWindow: 1000000
         input: [text, image]
         cost: { input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 }
-        headers:
-          User-Agent: *claude
       - id: claude-fable-5
         name: Claude Fable 5
         api: anthropic-messages
@@ -24,8 +21,6 @@ providers:
         maxTokens: 128000
         input: [text, image]
         cost: { input: 10, output: 50, cacheRead: 1, cacheWrite: 12.5 }
-        headers:
-          User-Agent: *claude
       - id: gpt-5.6-sol
         name: GPT-5.6 Sol
         reasoning: true
@@ -53,23 +48,21 @@ providers:
         input: [text, image]
         cost: { input: 0.5, output: 3, cacheRead: 0.05, cacheWrite: 0.05 }
       - id: glm-5.3
-        api: anthropic-messages
         name: GLM 5.3
         input: [text]
         max_tokens: 1000000
         contextWindow: 1000000
-        thinking: { mode: anthropic-adaptive, minLevel: minimal, maxLevel: max }
+        thinking: { mode: effort, minLevel: minimal, maxLevel: max }
         cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
       - id: glm-5.3-flash
-        api: anthropic-messages
         name: GLM 5.3
         input: [text, image]
         max_tokens: 1000000
         contextWindow: 1000000
-        thinking: { mode: anthropic-adaptive, minLevel: minimal, maxLevel: max }
+        thinking: { mode: effort, minLevel: minimal, maxLevel: max }
         cost: { input: 1.4, output: 4.4, cacheRead: 0.26, cacheWrite: 0 }
-      - id: deepseek-v4-flash
-        name: DeepSeek V4 Flash
+      - id: deepseek-flash
+        name: DeepSeek V4.1 Flash
         api: openai-completions
         reasoning: true
         contextWindow: 1000000
