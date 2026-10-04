@@ -35,8 +35,8 @@ modelRoles:
   default: axonhub/glm-5.3:xhigh
   designer: axonhub/gemini-3.8-flash
   vision: axonhub/gemini-3.8-flash
-  smol: axonhub/deepseek-v4-flash
-  commit: axonhub/deepseek-v4-flash
+  smol: axonhub/deepseek-flash
+  commit: axonhub/deepseek-flash
   review: axonhub/gpt-5.6-sol
   plan: axonhub/gpt-5.6-terra
   slow: axonhub/claude-opus-4-8
