@@ -89,12 +89,15 @@ async function downloadFile(url: string, dest: string): Promise<void> {
 }
 
 /**
- * Extract a .tar.gz or .zip archive using Bun's native archive support.
- * Bun.Archive auto-detects the format and validates paths during extraction.
+ * Extract a .tar.gz or .zip archive using the system tar binary.
+ * Windows ships bsdtar which handles both formats; Unix tar handles tar.gz.
  */
 async function extractArchive(archivePath: string, destDir: string): Promise<void> {
-  const bytes = await Bun.file(archivePath).bytes();
-  await new Bun.Archive(bytes).extract(destDir);
+  const proc = Bun.spawn(["tar", "-xf", archivePath, "-C", destDir]);
+  const exitCode = await proc.exited;
+  if (exitCode !== 0) {
+    throw new Error(`tar extraction failed with exit code ${exitCode}`);
+  }
 }
 
 /**

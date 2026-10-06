@@ -1,2 +1,16 @@
 node_modules
 .env
+agent.db*
+history.db*
+models.db*
+skill-descriptions.db*
+blobs/
+cache/
+custom-session-files/
+last-changelog-version
+memories/
+predict/
+secret-placeholder.key
+sessions/
+terminal-sessions/
+settings.json
