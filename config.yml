@@ -41,7 +41,7 @@ modelRoles:
   plan: axonhub/gpt-5.6-terra
   slow: axonhub/claude-opus-4-8
 browser:
-  headless: false
+  headless: true
 secrets:
   enabled: true
 edit:
@@ -116,6 +116,7 @@ disabledProviders:
   - llama.cpp
   - lm-studio
   - ollama
+  - local
 ask:
   timeout: 0
 autocompleteMaxVisible: 7
