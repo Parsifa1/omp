@@ -1,8 +1,8 @@
 providers:
-  axonhub:
+  magpie:
     baseUrl: https://api.cloudti.de/v1
     api: openai-responses
-    apiKey: AXONHUB_API_KEY
+    apiKey: MAGPIE_API_KEY
     headers:
       Accept: application/json
     discovery:
