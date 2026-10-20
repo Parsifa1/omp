@@ -12,6 +12,7 @@ tools:
   - ast_grep
   - submit_result
 model:
+  - magpie/copilot/auto
   - pi/smol
 thinkingLevel: minimal
 output:

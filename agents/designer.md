@@ -4,10 +4,6 @@ description: "UI/UX specialist for design implementation, review, visual refinem
 spawns:
   - explore
 model:
-  - axonhub/gemini-3.1-pro-preview
-  - google-gemini-cli/gemini-3-pro
-  - gemini-3-pro
-  - gemini-3
   - pi/default
 ---
 
