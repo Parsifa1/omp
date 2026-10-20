@@ -32,14 +32,14 @@ statusLine:
   showHookStatus: true
 showHardwareCursor: true
 modelRoles:
-  default: magpie/group/glm-5.3:max
+  default: magpie/group/glm-5.3-flash:max
   designer: magpie/ikun-gemini/gemini-3.8-flash
-  vision: magpie/cherr/glm-5.3-flash
+  vision: magpie/deepseek/deepseek-flash
   smol: magpie/deepseek/deepseek-flash
   commit: magpie/deepseek/deepseek-flash
   review: magpie/ikun-codex/gpt-5.6-sol
   plan: magpie/ikun-codex/gpt-5.6-terra
-  slow: magpie/cherr/glm-5.3
+  slow: magpie/venlacy/gpt-6-astra
 browser:
   headless: true
 secrets:
