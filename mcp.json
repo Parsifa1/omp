@@ -7,10 +7,6 @@
         "Authorization": "Bearer ${CONTEXT7_API_KEY}"
       }
     },
-    "grep-app": {
-      "type": "http",
-      "url": "https://mcp.grep.app"
-    },
     "firefox-devtools": {
       "enabled": "${FIREFOX_DEVTOOLS_ENABLED:-false}",
       "command": "pnpx",
