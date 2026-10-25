@@ -7,3 +7,6 @@ providers:
       Accept: application/json
     discovery:
       type: openai-models-list
+  typesafe:
+    baseUrl: https://api.cloudti.de
+    apiKey: MAGPIE_API_KEY
