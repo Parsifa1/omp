@@ -35,5 +35,4 @@ comments for removed code, etc. If you are certain that something is unused, you
 - 除非我同意，否则不得在`~`目录下创建任何新的文件夹或文件，避免污染我的 home 目录。
 - 当你需要拉取参考资料或者临时仓库时，优先考虑使用`/tmp`或类似临时目录，并在使用后及时清理。
 - 任何需要执行 `python` 或者 `js` 的操作，都尽量使用 `eval` 工具，而不是直接用 `<<'EOF'` 这种方式.
-- 查仓库、读文件或搜代码 --- 遇到涉及 GitHub 的操作 (搜代码/搜库/看 PR/读远程文
-件等), 优先使用 `xd://github`。
+- 查仓库、读文件或搜代码 --- 遇到涉及 GitHub 的操作 (搜代码/搜库/看 PR/读远程文件等), 若无用户明确要求, 必须使用 `xd://github`, *禁止* 拉取到本地。
