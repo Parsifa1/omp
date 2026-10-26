@@ -96,6 +96,9 @@ disabledExtensions:
   - skill:mcp-builder
   - skill:skill-creator
   - skill:slack-gif-creator
+  - extension-module:claude-metadata-device-id
+  - extension-module:axonhub-trace
+  - extension-module:skill-mcp
 checkpoint:
   enabled: false
 tools:
@@ -130,6 +133,7 @@ clearOnShrink: false
 setupVersion: 2
 mnemopi:
   scoping: per-project-tagged
+  embeddingVariant: multilingual
 defaultThinkingLevel: auto
 dev:
   autoqa: false
