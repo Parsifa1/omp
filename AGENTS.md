@@ -37,3 +37,6 @@ comments for removed code, etc. If you are certain that something is unused, you
 - 查仓库、读文件或搜代码 --- 遇到涉及 GitHub 的操作 (搜代码/搜库/看 PR/读远程文件等), 若无用户明确要求, 必须使用 `xd://github`, *禁止* 拉取到本地.
 - 但是如果当你真的需要拉取参考资料或者临时仓库时，优先考虑使用`/tmp`或类似临时目录，并在使用后及时清理.
 - 未经明确要求 *禁止* 使用 `string` 等命令对二进制进行直接分析, 请直接查看源码.
+- 生成 SVG 图表可视化时, 必须严格遵守排版规范:
+  - 字体声明统一为 `font-family: "Noto Sans CJK SC", "Noto Sans", sans-serif;`, 严禁使用系统默认栈, 严禁简写为 `Noto Sans` 或 `Noto Sans SC` (避免中文字重缺失导致渲染发虚).
+  - 字重标准: 标题使用 W6 (`font-weight: 600`), 正文统一使用 W4 (`font-weight: 400`), 说明/辅助注记使用 W3/W4 (`font-weight: 300` 或 `400`).
