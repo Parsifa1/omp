@@ -57,8 +57,6 @@ task:
   showResolvedModelBadge: true
 commands:
   enableClaudeProject: false
-bashInterceptor:
-  enabled: true
 disabledExtensions:
   - skill:opencode-skill-install-flow
   - slash-command:copilot-stats

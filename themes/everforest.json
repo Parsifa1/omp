@@ -99,5 +99,13 @@
     "pageBg": "#272E32",
     "cardBg": "#2D353B",
     "infoBg": "#343F44"
+  },
+  "symbols": {
+    "overrides": {
+      "boxRound.topLeft": "┌",
+      "boxRound.topRight": "┐",
+      "boxRound.bottomLeft": "└",
+      "boxRound.bottomRight": "┘"
+    }
   }
 }
