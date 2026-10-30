@@ -39,11 +39,12 @@ secrets:
 lsp:
   diagnosticsOnEdit: true
 compaction:
-  thresholdPercent: 85
+  thresholdPercent: 80
   methodOrder:
-    - snapcompact
     - remote
+    - snapcompact
     - soft
+  idleEnabled: true
 retry:
   maxRetries: 5
 memories:
