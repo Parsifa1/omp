@@ -1,4 +1,7 @@
 providers:
+  typesafe:
+    baseUrl: https://api.cloudti.de
+    apiKey: MAGPIE_API_KEY
   magpie:
     baseUrl: https://api.cloudti.de/v1
     api: openai-responses
@@ -7,6 +10,6 @@ providers:
       Accept: application/json
     discovery:
       type: openai-models-list
-  typesafe:
-    baseUrl: https://api.cloudti.de
-    apiKey: MAGPIE_API_KEY
+    modelOverrides:
+      group/glm-5.3:
+        input: [text, image]
