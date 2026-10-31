@@ -68,7 +68,7 @@ disabledExtensions:
   - extension-module:skill-mcp
 ttsr:
   repeatMode: after-gap
-  repeatGap: 5
+  repeatGap: 0
 todo:
   remindersMax: 5
 mcp:

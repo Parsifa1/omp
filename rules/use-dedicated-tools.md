@@ -1,7 +1,7 @@
 ---
 name: use-dedicated-tools
 description: "Do not run cat/head/tail/grep/rg/find/fd/sed -i in bash — use the dedicated read/grep/glob/edit tools instead."
-condition: "(?m)^\\s*(cat|head|tail|less|more)\\s+(?!/dev/(null|tty))|^\\s*(grep|rg|ripgrep|ag|ack)\\s|^\\s*(find|fd|locate)\\s+.*(-name|-iname|-type|--type|-glob)|^\\s*sed\\s+[^\\n]*(-i(?!\\w)|--in-place)|(?:^|[;&|]\\s*)\\s*perl\\s+(?:-[^\\s]*i|[^\\n]*\\s-[^\\s]*i)|^\\s*awk\\s+[^\\n]*-i\\s+inplace"
+condition: '(?:(?:"command"\s*:\s*"|\\n)(?:\\[nrt]|\s)*)(?:(?:cat|head|tail|less|more)\s+(?!/dev/(?:null|tty))|(?:grep|rg|ripgrep|ag|ack)\s|(?:find|fd|locate)\s+(?:\\.|[^"])*?(?:-name|-iname|-type|--type|-glob)|sed\s(?:\\.|[^"])*?(?:-i(?!\w)|--in-place)|awk\s(?:\\.|[^"])*?-i\s+inplace)|(?:"command"\s*:\s*"|[;&|]\s*|\\n)(?:\\[nrt]|\s)*perl\s+(?:-[^\s]*i|(?:\\.|[^"])*?\s-[^\s]*i)'
 scope: "tool:bash"
 interruptMode: "always"
 ---
