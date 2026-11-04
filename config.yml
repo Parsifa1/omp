@@ -28,7 +28,7 @@ modelRoles:
   default: magpie/antigravity/gemini-3.8-flash
   designer: magpie/antigravity/gemini-3.8-flash
   vision: magpie/deepseek/deepseek-flash
-  smol: magpie/group/glm-5.3:max
+  smol: magpie/deepseek/deepseek-flash
   commit: magpie/deepseek/deepseek-flash
   review: magpie/venlacy/gpt-6.1-sol
   plan: magpie/venlacy/gpt-6-astra
