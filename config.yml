@@ -44,7 +44,7 @@ compaction:
     - remote
     - snapcompact
     - soft
-  idleEnabled: true
+  idleEnabled: false
 retry:
   maxRetries: 5
 memories:
