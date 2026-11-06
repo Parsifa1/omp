@@ -25,11 +25,11 @@ statusLine:
       showUnstaged: false
       showUntracked: false
 modelRoles:
-  default: magpie/deepseek/deepseek-flash
+  default: magpie/venlacy/gpt-6.1-sol
   designer: magpie/venlacy/gpt-6.1-sol
-  vision: magpie/deepseek/deepseek-flash
-  smol: magpie/deepseek/deepseek-flash
-  commit: magpie/deepseek/deepseek-flash
+  vision: magpie/party/deepseek-v4.1-flash
+  smol: magpie/party/deepseek-v4.1-flash
+  commit: magpie/party/deepseek-v4.1-flash
   review: magpie/venlacy/gpt-6.1-sol
   plan: magpie/venlacy/gpt-6-astra
   slow: magpie/venlacy/gpt-6-astra
