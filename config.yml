@@ -84,7 +84,7 @@ disabledProviders:
 autocompleteMaxVisible: 7
 github:
   enabled: true
-setupVersion: 2
+setupVersion: 3
 mnemopi:
   scoping: per-project-tagged
   embeddingVariant: multilingual
@@ -93,3 +93,5 @@ dev:
   autoqa: false
 worktree:
   onExit: remove
+update:
+  auto: false
