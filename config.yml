@@ -25,8 +25,8 @@ statusLine:
       showUnstaged: false
       showUntracked: false
 modelRoles:
-  default: magpie/antigravity/gemini-3.8-flash
-  designer: magpie/antigravity/gemini-3.8-flash
+  default: magpie/deepseek/deepseek-flash
+  designer: magpie/venlacy/gpt-6.1-sol
   vision: magpie/deepseek/deepseek-flash
   smol: magpie/deepseek/deepseek-flash
   commit: magpie/deepseek/deepseek-flash
