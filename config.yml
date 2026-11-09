@@ -25,15 +25,14 @@ statusLine:
       showUnstaged: false
       showUntracked: false
 modelRoles:
-  default: magpie/venlacy/gpt-6.1-sol
-  designer: magpie/venlacy/gpt-6.1-sol
+  default: magpie/party/deepseek-flash
+  designer: magpie/asxs/gpt-6.1-sol
   vision: magpie/party/deepseek-flash
   smol: magpie/party/deepseek-flash
   commit: magpie/party/deepseek-flash
-  review: magpie/venlacy/gpt-6.1-sol
-  plan: magpie/venlacy/gpt-6-astra
-  slow: magpie/venlacy/gpt-6-astra
-  judge: typesafe/jev-latest
+  review: magpie/asxs/gpt-6.1-sol
+  plan: magpie/asxs/gpt-6-astra
+  slow: magpie/asxs/gpt-6-astra
 secrets:
   enabled: true
 lsp:
@@ -95,3 +94,5 @@ worktree:
   onExit: remove
 update:
   auto: false
+security:
+  enabled: true
