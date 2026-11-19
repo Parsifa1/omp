@@ -41,6 +41,7 @@
     "selectedBg": "bg1",
     "userMessageBg": "bg1",
     "userMessageText": "fg",
+    "assistantMessageText": "fg",
     "customMessageBg": "",
     "customMessageText": "fg",
     "customMessageLabel": "aqua",
@@ -93,7 +94,30 @@
     "statusLineOutput": "fg",
     "statusLineCost": "orange",
     "statusLineSubagents": "aqua",
-    "pythonMode": "yellow"
+    "pythonMode": "yellow",
+    "btwMode": "blue"
+  },
+  "terminal": {
+    "background": "bg0",
+    "foreground": "fg",
+    "ansi": [
+      "bg2",
+      "red",
+      "green",
+      "yellow",
+      "blue",
+      "purple",
+      "aqua",
+      "fg",
+      "bg3",
+      "red",
+      "green",
+      "yellow",
+      "blue",
+      "purple",
+      "aqua",
+      "fg"
+    ]
   },
   "export": {
     "pageBg": "#272E32",
