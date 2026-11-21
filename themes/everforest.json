@@ -95,7 +95,7 @@
     "statusLineCost": "orange",
     "statusLineSubagents": "aqua",
     "pythonMode": "yellow",
-    "btwMode": "blue"
+    "btwMode": "#3A5A6E"
   },
   "terminal": {
     "background": "bg0",
