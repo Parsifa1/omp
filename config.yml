@@ -96,7 +96,5 @@ update:
   auto: false
 security:
   enabled: true
-title:
-  icons: emoji
 browser:
   webkit: false
