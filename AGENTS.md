@@ -17,6 +17,7 @@
 - 查仓库、读文件或搜代码 --- 遇到涉及 GitHub 的操作, 若无用户明确要求, 必须使用 `github`, *禁止* 拉取到本地.
 - 如果当你真的需要拉取参考资料或者临时仓库时, 优先考虑使用`/tmp`或类似临时目录, 并在使用后及时清理.
 - 执行 `bash` 工具时, *禁止* 主动设置 `name` 参数 (避免隐式注册常驻后台 Service 污染界面), 除非明确是在启动长期运行的本地守护服务 (如 dev server). 普通异步命令仅使用 `async: true`.
+- 在 `bash` 工具里嵌套执行 `powershell`/`pwsh -Command` 时, *必须*用单引号包裹整条命令, 双引号会让 brush 展开 `$_`/`$var`/`$(...)` 导致 PowerShell 收到残缺脚本. 若命令本身含单引号, PowerShell 内部用 `"` 或 `''` 转义, 外层保持单引号.
 - 生成 SVG 图表可视化时, 必须严格遵守排版规范:
   - 字体声明统一为 `font-family: "Noto Sans CJK SC", "Noto Sans", sans-serif;`, 严禁使用系统默认栈, 严禁简写为 `Noto Sans` 或 `Noto Sans SC` (避免中文字重缺失导致渲染发虚).
   - 字重标准: 标题使用 W6 (`font-weight: 600`), 正文统一使用 W4 (`font-weight: 400`), 说明/辅助注记使用 W3/W4 (`font-weight: 300` 或 `400`).
